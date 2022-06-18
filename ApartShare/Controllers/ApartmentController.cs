@@ -36,33 +36,38 @@ namespace ApartShare.Controllers
                 DueDate = dueDate,
             };
 
-            var allRequests = await _unitOfWork.Apartments.GetAllWithStatusAndDatesAsync();
+            var allApartments = await _unitOfWork.Apartments.GetAllWithStatusAndDatesAsync();
+
+            if(allApartments == null)
+            {
+                return NotFound($"No apartments available for this time.");
+            }
 
             if (city != null)
             {
-
-                allRequests = allRequests
+                allApartments = allApartments
                     .Where(x => x.City.ToLower().Contains(city.ToLower()));
 
             }
             else if (fromDate != null && fromDate < dueDate)
             {
-                allRequests = allRequests
+                allApartments = allApartments
                     .Where(x => (x.FromDate >= dueDate || x.DueDate <= fromDate));
             }
 
-            response.Apartments = allRequests
+            response.Apartments = allApartments
                 .OrderBy(x => x.DueDate);
 
             if (response.Apartments.Any())
             {
                 return Ok(response);
             }
+
             return NotFound("No results for given query.");
         }
 
         [HttpPost("{id}")]
-        public IActionResult CreateApartmentAsync(Guid id, [FromBody] ApartmentCreation apartment)
+        public IActionResult CreateApartmentAsync(Guid id, [FromBody] ApartmentCreationDTO apartment)
         {
             //TODO check JWT and compare id's
 
@@ -79,7 +84,8 @@ namespace ApartShare.Controllers
 
             try
             {
-                var checkApartment = _unitOfWork.Apartments.FindByCondition(x => x.OwnerId == id).FirstOrDefault();
+                //If apartment already exists update its fields.
+                var checkApartment = _unitOfWork.Apartments.FindByCondition(x => x.OwnerId == id).SingleOrDefault();
                 if (checkApartment != null)
                 {
                     checkApartment.Address = apartment.Address;
@@ -92,6 +98,7 @@ namespace ApartShare.Controllers
                 }
                 else
                 {
+                    //If apartments does not exist create new one.
                     _unitOfWork.Apartments.Create(newApartment);
                 }
                 _unitOfWork.Commit();
@@ -102,7 +109,7 @@ namespace ApartShare.Controllers
                 return BadRequest("Error during creation.");
             }
 
-            return Ok(newApartment);
+            return Ok(apartment);
         }
     }
 }

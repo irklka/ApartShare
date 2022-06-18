@@ -2,6 +2,8 @@
 using ApartShare.Models.Interfaces;
 using System.Linq.Expressions;
 
+#pragma warning disable CS8603 // Possible null reference return.
+
 namespace ApartShare.Models.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class

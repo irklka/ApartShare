@@ -11,8 +11,6 @@ namespace ApartShare.Models
         public string ImageBase64 { get; set; }
         public double DistanceToCenter { get; set; }
         public Guid OwnerId { get; set; }
-
-        [JsonIgnore]
         public User Owner { get; set; }
     }
 }

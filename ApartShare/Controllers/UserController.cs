@@ -3,6 +3,7 @@ using ApartShare.Models.DTOs.UserDtos;
 using ApartShare.Models.Extensions;
 using ApartShare.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using ApartShare.Helpers;
 
 namespace ApartShare.Controllers
 {
@@ -26,12 +27,14 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost("registration")]
-        public IActionResult Registration([FromBody] UserRegistration userRegistration)
+        public IActionResult Registration([FromBody] UserRegistrationDTO userRegistration)
         {
             if (_unitOfWork.Users.FindByCondition(x => x.LoginName == userRegistration.LoginName).Any())
             {
                 return BadRequest("Same Login name already exists");
             }
+
+            var passwordHash = PasswordService.ComputeStringToSha256Hash(userRegistration.Password);
 
             User user = new User
             {
@@ -40,7 +43,7 @@ namespace ApartShare.Controllers
                 Email = userRegistration.Email,
                 LoginName = userRegistration.LoginName,
                 ImageBase64 = userRegistration.ImageBase64,
-                Password = userRegistration.Password
+                Password = passwordHash
             };
 
             try
@@ -57,18 +60,21 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLogin userLogin)
+        public IActionResult Login([FromBody] UserLoginDTO userLogin)
         {
             //TODO add JWT generation
 
+            var passwordHash = PasswordService.ComputeStringToSha256Hash(userLogin.Password);
+
             var userVerify = _unitOfWork.Users
                 .FindByCondition(x => x.LoginName == userLogin.Login 
-                                    && x.Password == userLogin.Password);
+                                    && x.Password == passwordHash).SingleOrDefault();
 
-            if (userVerify.Any())
+            if (userVerify != null)
             {
                 return Ok("User verified.");
             }
+
             return NotFound("Invalid credentials.");
         }
 
@@ -78,8 +84,13 @@ namespace ApartShare.Controllers
             //TODO compare user id with JWT user id.
 
             var user = await _unitOfWork.Users.GetUserWithApartment(id);
-            
-            return Ok(user);
+
+            if(user == null)
+            {
+                return NotFound($"User with id:{id} was not found.");
+            }
+
+            return Ok(user.ToDTO());
         }
     }
 }

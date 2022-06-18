@@ -34,7 +34,7 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost("changeRequestStatus")]
-        public IActionResult ChangeRequestsStatus(Guid id, int status)
+        public IActionResult UpdateRequestsStatus(Guid id, int status)
         {
             if (status > 2 || status < 0)
             {
@@ -42,6 +42,11 @@ namespace ApartShare.Controllers
             }
 
             var request = _unitOfWork.Requests.Get(id);
+
+            if (request == null)
+            {
+                return NotFound($"Request with id:{id} was not found.");
+            }
 
             var checkIfAleadyApproved = _unitOfWork.Requests
                                             .FindByCondition(x => x.HostId == request.HostId
@@ -75,7 +80,7 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost("createRequest")]
-        public IActionResult CreateRequest(Guid HostId, Guid GuestId, [FromBody] CreateRequest request)
+        public IActionResult CreateRequest(Guid HostId, Guid GuestId, [FromBody] CreateRequestDTO request)
         {
             //TODO Check JWT for user id and compare them.
 
@@ -109,7 +114,7 @@ namespace ApartShare.Controllers
                 return BadRequest("Error during creation.");
             }
 
-            return Ok(newRequest);
+            return Ok(newRequest.ToRequestDTO());
         }
     }
 }

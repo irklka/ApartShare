@@ -1,6 +1,6 @@
 ﻿namespace ApartShare.Models.DTOs.UserDtos
 {
-    public class UserLogin
+    public class UserLoginDTO
     {
         public string Login { get; set; }
         public string Password { get; set; }

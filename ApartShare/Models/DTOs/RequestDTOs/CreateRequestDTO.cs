@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ApartShare.Models.DTOs.RequestDtos
 {
-    public class CreateRequest
+    public class CreateRequestDTO
     {
         [Required]
         [StringLength(100, MinimumLength = 2)]

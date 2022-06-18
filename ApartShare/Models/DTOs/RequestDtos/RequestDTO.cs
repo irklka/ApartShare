@@ -1,5 +1,6 @@
 ﻿using ApartShare.Models.Enums;
 using System.Text.Json.Serialization;
+#pragma warning disable S101 
 
 namespace ApartShare.Models.DTOs.RequestDtos
 {
@@ -10,12 +11,6 @@ namespace ApartShare.Models.DTOs.RequestDtos
         public string City { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-
-        [JsonIgnore]
-        public User Guest { get; set; }
-        [JsonIgnore]
-        public User Host { get; set; }
-
         public Guid GuestId { get; set; }
         public Guid HostId { get; set; }
 

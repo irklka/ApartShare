@@ -2,7 +2,7 @@
 
 namespace ApartShare.Models.DTOs.UserDtos
 {
-    public class UserRegistration
+    public class UserRegistrationDTO
     {
         [Required]
         [EmailAddress]

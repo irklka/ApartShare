@@ -16,7 +16,7 @@ namespace ApartShare.Models.Extensions
                 LoginName = user.LoginName,
                 Password = user.Password,
                 MyApartment = user.MyApartment,
-                ImageBase64 = user.ImageBase64
+                ImageBase64 = user.ImageBase64,
             };
         }
 

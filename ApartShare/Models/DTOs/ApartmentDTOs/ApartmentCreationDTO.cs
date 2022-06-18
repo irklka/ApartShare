@@ -2,7 +2,7 @@
 
 namespace ApartShare.Models.DTOs.ApartmentDtos
 {
-    public class ApartmentCreation
+    public class ApartmentCreationDTO
     {
         [Required]
         [StringLength(50, MinimumLength = 2)]
