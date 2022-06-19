@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApartShare.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class RequestController : ControllerBase
     {
         private readonly ILogger<RequestController> _logger;
@@ -26,7 +26,6 @@ namespace ApartShare.Controllers
         [HttpGet("myGuests")]
         public IActionResult GetMyGuestRequests()
         {
-            //TODO Check JWT for user id and compare them.
             try
             {
                 var jwt = Request.Cookies["jwt"];

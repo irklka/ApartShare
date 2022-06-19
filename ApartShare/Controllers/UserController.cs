@@ -7,8 +7,8 @@ using ApartShare.Helpers;
 
 namespace ApartShare.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;

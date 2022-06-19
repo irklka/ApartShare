@@ -39,7 +39,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
   - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
   - [Adding Development Environment Variables In `.env`](#adding-development-environment-variables-in-env)
 - [Can I Use Decorators?](#can-i-use-decorators)
-- [Integrating with an API ApartShare](#integrating-with-an-api-ApartShare)
+- [Integrating with an API Backend](#integrating-with-an-api-backend)
   - [Node](#node)
   - [Ruby on Rails](#ruby-on-rails)
 - [Proxying API Requests in Development](#proxying-api-requests-in-development)
@@ -949,9 +949,9 @@ Please refer to these two threads for reference:
 
 Create React App will add decorator support when the specification advances to a stable stage.
 
-## Integrating with an API ApartShare
+## Integrating with an API Backend
 
-These tutorials will help you to integrate your app with an API ApartShare running on another port,
+These tutorials will help you to integrate your app with an API backend running on another port,
 using `fetch()` to access it.
 
 ### Node
@@ -967,13 +967,13 @@ You can find the companion GitHub repository [here](https://github.com/fullstack
 
 >Note: this feature is available with `react-scripts@0.2.3` and higher.
 
-People often serve the front-end React app from the same host and port as their ApartShare implementation.<br>
+People often serve the front-end React app from the same host and port as their backend implementation.<br>
 For example, a production setup might look like this after the app is deployed:
 
 ```
 /             - static server returns index.html with React app
 /todos        - static server returns index.html with React app
-/api/todos    - server handles any /api/* requests using the ApartShare implementation
+/api/todos    - server handles any /api/* requests using the backend implementation
 ```
 
 Such setup is **not** required. However, if you **do** have a setup like this, it is convenient to write requests like `fetch('/api/todos')` without worrying about redirecting them to another host or port during development.
@@ -1003,7 +1003,7 @@ If the `proxy` option is **not** flexible enough for you, alternatively you can:
 
 ### "Invalid Host Header" Errors After Configuring Proxy
 
-When you enable the `proxy` option, you opt into a more strict set of host checks. This is necessary because leaving the ApartShare open to remote hosts makes your computer vulnerable to DNS rebinding attacks. The issue is explained in [this article](https://medium.com/webpack/webpack-dev-server-middleware-security-issues-1489d950874a) and [this issue](https://github.com/webpack/webpack-dev-server/issues/887).
+When you enable the `proxy` option, you opt into a more strict set of host checks. This is necessary because leaving the backend open to remote hosts makes your computer vulnerable to DNS rebinding attacks. The issue is explained in [this article](https://medium.com/webpack/webpack-dev-server-middleware-security-issues-1489d950874a) and [this issue](https://github.com/webpack/webpack-dev-server/issues/887).
 
 This shouldn’t affect you when developing on `localhost`, but if you develop remotely like [described here](https://github.com/facebookincubator/create-react-app/issues/2271), you will see this error in the browser after enabling the `proxy` option:
 
@@ -1151,7 +1151,7 @@ Since Create React App doesn’t support server rendering, you might be wonderin
     <meta property="og:description" content="__OG_DESCRIPTION__">
 ```
 
-Then, on the server, regardless of the ApartShare you use, you can read `index.html` into memory and replace `__OG_TITLE__`, `__OG_DESCRIPTION__`, and any other placeholders with values depending on the current URL. Just make sure to sanitize and escape the interpolated values so that they are safe to embed into HTML!
+Then, on the server, regardless of the backend you use, you can read `index.html` into memory and replace `__OG_TITLE__`, `__OG_DESCRIPTION__`, and any other placeholders with values depending on the current URL. Just make sure to sanitize and escape the interpolated values so that they are safe to embed into HTML!
 
 If you use a Node server, you can even share the route matching logic between the client and the server. However duplicating it also works fine in simple cases.
 
@@ -1542,7 +1542,7 @@ Create React App doesn’t include any tools for this by default, but you can ea
 
 ![Storybook for React Demo](http://i.imgur.com/7CIAWpB.gif)
 
-You can also deploy your Storybook or style guide as a static app. This way, everyone in your team can view and review different states of UI components without starting a ApartShare server or creating an account in your app.
+You can also deploy your Storybook or style guide as a static app. This way, everyone in your team can view and review different states of UI components without starting a backend server or creating an account in your app.
 
 ### Getting Started with Storybook
 
@@ -1693,7 +1693,7 @@ scenario, and which as a default, just logs appropriate messages to the
 JavaScript console.
 
 1. By default, the generated service worker file will not intercept or cache any
-cross-origin traffic, like HTTP [API requests](#integrating-with-an-api-ApartShare),
+cross-origin traffic, like HTTP [API requests](#integrating-with-an-api-backend),
 images, or embeds loaded from a different domain. If you would like to use a
 runtime caching strategy for those requests, you can [`eject`](#npm-run-eject)
 and then configure the
@@ -1763,7 +1763,7 @@ npm install -g serve
 serve -s build
 ```
 
-The last command shown above will serve your static site on the port **5209**. Like many of [serve](https://github.com/zeit/serve)’s internal settings, the port can be adjusted using the `-p` or `--port` flags.
+The last command shown above will serve your static site on the port **5026**. Like many of [serve](https://github.com/zeit/serve)’s internal settings, the port can be adjusted using the `-p` or `--port` flags.
 
 Run this command to get a full list of the options available:
 

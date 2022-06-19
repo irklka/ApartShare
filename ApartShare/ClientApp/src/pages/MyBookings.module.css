@@ -1,0 +1,6 @@
+/** @format */
+
+/* this and search pages prop can have same css rule */
+.bookings-container {
+  gap: 9.6rem;
+}

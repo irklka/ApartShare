@@ -1,22 +1,37 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import { Layout } from './components/Layout';
-import './custom.css';
+import { useContext, Fragment } from "react";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Header from "./components/Layout/Header";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import UserProfile from "./pages/UserProfile";
+import MyGuests from "./pages/MyGuests";
+import MyBookings from "./pages/MyBookings";
+import Search from "./pages/Search";
+import AuthContext from "./store/auth-context";
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = () => {
+  const { isLoggedIn } = useContext(AuthContext);
 
-  render() {
-    return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
-        </Routes>
-      </Layout>
-    );
-  }
+  console.log(isLoggedIn);
+
+  return <div>
+
+    {isLoggedIn && <Header />}
+
+    <main>
+      <Routes>
+        <Route path="/" element={<Navigate replace to="/login" />} />
+        {!isLoggedIn && <Route path="/login" element={<Login />} />}
+        {!isLoggedIn && <Route path="/register" element={<Register />} />}
+        {isLoggedIn && <Route path="/profile" element={<UserProfile />} />}
+        {isLoggedIn && <Route path="/search" element={<Search />} />}
+        {isLoggedIn && <Route path="/my-guests" element={<MyGuests />} />}
+        {isLoggedIn && <Route path="/my-bookings" element={<MyBookings />} />}
+        <Route path='*' element={<Navigate replace to={isLoggedIn ? '/profile' : '/'} />} />
+      </Routes>
+    </main>
+
+  </div>
 }
+
+export default App;

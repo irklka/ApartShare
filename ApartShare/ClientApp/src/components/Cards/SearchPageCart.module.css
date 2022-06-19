@@ -1,0 +1,46 @@
+/** @format */
+
+.result-card {
+  gap: 2.4rem;
+  box-shadow: 0 0 10px rgb(119, 119, 119, 0.5);
+}
+
+.result-card--img {
+  width: 100%;
+}
+
+.result-card--info {
+  padding: 0 4.8rem 2.4rem;
+  gap: 2.4rem;
+}
+
+.location-info p {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.location-info div {
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: flex;
+  gap: 1rem;
+}
+
+.result-card--desc {
+  font-size: 1.2rem;
+}
+
+.result-card--bot {
+  display: flex;
+  justify-content: space-between;
+  justify-content: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn--book-now {
+  flex-grow: 1;
+}

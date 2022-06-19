@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApartShare.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ApartmentController : ControllerBase
     {
         private readonly ILogger<ApartmentController> _logger;

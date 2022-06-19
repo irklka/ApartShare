@@ -1,0 +1,18 @@
+/** @format */
+
+.login-background {
+  background-image: linear-gradient(
+      to right bottom,
+      rgb(132, 94, 247, 0.35),
+      rgb(208, 191, 255, 0.35)
+    ),
+    url(../images/register-background-img.jpg);
+}
+
+.btn--register {
+  margin-right: auto;
+}
+
+.form-gap {
+  gap: 24px;
+}

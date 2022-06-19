@@ -1,0 +1,30 @@
+/** @format */
+
+.user-profile-img {
+  width: 100%;
+  position: relative;
+}
+
+.user-img-container {
+  width: 420px;
+  overflow: hidden;
+  justify-self: right;
+}
+
+/* this can be both profile and appartment forms css rule */
+
+.appartment-form-container {
+  border: 1px solid #5f3dc4;
+  border-radius: 4px;
+  padding: 0 48px;
+}
+
+.profile-form--appartment {
+  padding: 0 !important;
+  align-self: flex-start;
+}
+
+.div--content {
+  padding-bottom: 2.4rem;
+  display: none;
+}

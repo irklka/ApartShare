@@ -31,12 +31,13 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors(options => options
-    .WithOrigins("http://localhost:44469")
+    .WithOrigins(new[] { "https://localhost:44469" })
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials()
 );
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
