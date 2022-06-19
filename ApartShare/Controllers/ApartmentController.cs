@@ -31,7 +31,7 @@ namespace ApartShare.Controllers
 
                 var token = _jwtService.Verify(jwt);
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }
@@ -129,7 +129,7 @@ namespace ApartShare.Controllers
 
                 return Ok(apartment);
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }

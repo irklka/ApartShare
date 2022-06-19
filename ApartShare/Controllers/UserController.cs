@@ -122,7 +122,7 @@ namespace ApartShare.Controllers
 
                 return Ok(user.ToDTO());
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }

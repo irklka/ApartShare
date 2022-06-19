@@ -42,7 +42,7 @@ namespace ApartShare.Controllers
 
                 return Ok(request);
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }
@@ -58,7 +58,7 @@ namespace ApartShare.Controllers
 
                 var token = _jwtService.Verify(jwt);
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }
@@ -111,7 +111,7 @@ namespace ApartShare.Controllers
 
                 return Ok(request);
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }
@@ -127,7 +127,7 @@ namespace ApartShare.Controllers
 
                 var token = _jwtService.Verify(jwt);
             }
-            catch (Exception e)
+            catch
             {
                 return Unauthorized();
             }

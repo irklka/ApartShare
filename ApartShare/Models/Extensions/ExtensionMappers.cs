@@ -21,7 +21,7 @@ namespace ApartShare.Models.Extensions
             };
         }
 
-         public static UserApartmentDTO ToDTO(this Apartment apartment)
+         public static UserApartmentDTO? ToDTO(this Apartment apartment)
         {
             if( apartment == null)
             {
