@@ -16,11 +16,7 @@ namespace ApartShare.Models
         public Guid GuestId { get; set; }
         [ForeignKey("FK_Requests_Users_HostId")]
         public Guid HostId { get; set; }
-
-        [JsonIgnore]
         public User Guest { get; set; }
-
-        [JsonIgnore]
         public User Host { get; set; }
         public DateTime CreationDate { get; set; }
     }

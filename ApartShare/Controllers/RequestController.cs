@@ -1,4 +1,5 @@
-﻿using ApartShare.Models;
+﻿using ApartShare.Helpers;
+using ApartShare.Models;
 using ApartShare.Models.DTOs.RequestDtos;
 using ApartShare.Models.Enums;
 using ApartShare.Models.Extensions;
@@ -13,29 +14,55 @@ namespace ApartShare.Controllers
     {
         private readonly ILogger<RequestController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly JwtService _jwtService;
 
-        public RequestController(ILogger<RequestController> logger, IUnitOfWork unitOfWork)
+        public RequestController(ILogger<RequestController> logger, IUnitOfWork unitOfWork, JwtService jwtService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _jwtService = jwtService;
         }
 
         [HttpGet("myGuests")]
-        public IActionResult GetMyGuestRequests(Guid id)
+        public IActionResult GetMyGuestRequests()
         {
             //TODO Check JWT for user id and compare them.
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
 
-            var request = _unitOfWork.Requests
-                .FindByCondition(x => x.HostId == id)
-                .Select(x => x.ToRequestDTO())
-                .ToList();
+                var token = _jwtService.Verify(jwt);
 
-            return Ok(request);
+                Guid userId = Guid.Parse(token.Issuer);
+
+                var request = _unitOfWork.Requests
+                    .FindByCondition(x => x.HostId == userId)
+                    .Select(x => x.ToRequestDTO())
+                    .ToList();
+
+                return Ok(request);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+
         }
 
         [HttpPost("changeRequestStatus")]
         public IActionResult UpdateRequestsStatus(Guid id, int status)
         {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+
             if (status > 2 || status < 0)
             {
                 return BadRequest("Invalid status");
@@ -67,22 +94,43 @@ namespace ApartShare.Controllers
         }
 
         [HttpGet("myRequests")]
-        public IActionResult GetMyRequests(Guid id)
+        public IActionResult GetMyRequests()
         {
-            //TODO Check JWT for user id and compare them.
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
 
-            var request = _unitOfWork.Requests
-                .FindByCondition(x => x.GuestId == id)
+                var token = _jwtService.Verify(jwt);
+
+                Guid userId = Guid.Parse(token.Issuer);
+
+                var request = _unitOfWork.Requests
+                .FindByCondition(x => x.GuestId == userId)
                 .Select(x => x.ToRequestDTO())
                 .ToList();
 
-            return Ok(request);
+                return Ok(request);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+
         }
 
         [HttpPost("createRequest")]
         public IActionResult CreateRequest(Guid HostId, Guid GuestId, [FromBody] CreateRequestDTO request)
         {
-            //TODO Check JWT for user id and compare them.
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
 
             var checkHost = _unitOfWork.Users.Get(HostId);
             var checkGuest = _unitOfWork.Users.Get(GuestId);

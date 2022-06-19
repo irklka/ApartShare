@@ -13,17 +13,20 @@ namespace ApartShare.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly JwtService _jwtService;
 
-        public UserController(ILogger<UserController> logger, IUnitOfWork unitOfWork)
+        public UserController(ILogger<UserController> logger, IUnitOfWork unitOfWork, JwtService jwtService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _jwtService = jwtService;
         }
 
         [HttpGet("check")]
         public IActionResult Check()
         {
-            return Ok("Api is up");
+
+            return Ok("Api is up " + Request.Cookies["jwt"]);
         }
 
         [HttpPost("registration")]
@@ -31,7 +34,10 @@ namespace ApartShare.Controllers
         {
             if (_unitOfWork.Users.FindByCondition(x => x.LoginName == userRegistration.LoginName).Any())
             {
-                return BadRequest("Same Login name already exists");
+                return BadRequest(new
+                {
+                    message = "Same Login name already exists"
+                });
             }
 
             var passwordHash = PasswordService.ComputeStringToSha256Hash(userRegistration.Password);
@@ -53,7 +59,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return BadRequest("Error during registration.");
+                return BadRequest(new
+                {
+                    message = "Error during registration"
+                });
             }
 
             return Ok(user.ToDTO());
@@ -62,35 +71,73 @@ namespace ApartShare.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginDTO userLogin)
         {
-            //TODO add JWT generation
 
             var passwordHash = PasswordService.ComputeStringToSha256Hash(userLogin.Password);
-
+            
             var userVerify = _unitOfWork.Users
-                .FindByCondition(x => x.LoginName == userLogin.Login 
+                .FindByCondition(x => x.LoginName == userLogin.Login
                                     && x.Password == passwordHash).SingleOrDefault();
-
+            
             if (userVerify != null)
             {
-                return Ok("User verified.");
+                var jwt = _jwtService.Generate(userVerify.Id);
+
+                Response.Cookies.Append("jwt", jwt, new CookieOptions
+                {
+                    HttpOnly = true,
+                });
+
+                return Ok(new
+                {
+                    message = "User verified"
+                });
             }
 
-            return NotFound("Invalid credentials.");
+            return NotFound(new
+            {
+                message = "Invalid credentials"
+            });
         }
 
-        [HttpGet("profile/{id}")]
-        public async Task<IActionResult> GetProfile(Guid id)
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile()
         {
-            //TODO compare user id with JWT user id.
-
-            var user = await _unitOfWork.Users.GetUserWithApartment(id);
-
-            if(user == null)
+            try
             {
-                return NotFound($"User with id:{id} was not found.");
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+
+                Guid userId = Guid.Parse(token.Issuer);
+
+                var user = await _unitOfWork.Users.GetUserWithApartment(userId);
+
+                if (user == null)
+                {
+                    return NotFound(new
+                    {
+                        message = $"User with id:{userId} was not found."
+                    });
+                }
+
+                return Ok(user.ToDTO());
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
             }
 
-            return Ok(user.ToDTO());
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new
+            {
+                message = "success"
+            });
         }
     }
 }

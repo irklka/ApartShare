@@ -1,4 +1,5 @@
 ﻿using ApartShare.Models.DTOs.ApartmentDtos;
+using ApartShare.Models.DTOs.ApartmentDTOs;
 using ApartShare.Models.DTOs.RequestDtos;
 using ApartShare.Models.DTOs.UserDtos;
 
@@ -15,11 +16,27 @@ namespace ApartShare.Models.Extensions
                 Name = user.Name,
                 LoginName = user.LoginName,
                 Password = user.Password,
-                MyApartment = user.MyApartment,
+                MyApartment = user.MyApartment.ToDTO(),
                 ImageBase64 = user.ImageBase64,
             };
         }
 
+         public static UserApartmentDTO ToDTO(this Apartment apartment)
+        {
+            if( apartment == null)
+            {
+                return null;
+            }
+            return new UserApartmentDTO
+            {
+                City = apartment.City,
+                Address = apartment.Address,
+                BedsNumber = apartment.BedsNumber,
+                DistanceToCenter = apartment.DistanceToCenter,
+                ImageBase64 = apartment.ImageBase64,
+                OwnerId = apartment.OwnerId
+            };
+        }
         public static RequestDTO? ToRequestDTO(this Request request)
         {
             if (request == null)

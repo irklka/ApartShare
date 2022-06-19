@@ -1,4 +1,5 @@
-﻿using ApartShare.Models;
+﻿using ApartShare.Helpers;
+using ApartShare.Models;
 using ApartShare.Models.DTOs.ApartmentDtos;
 using ApartShare.Models.DTOs.RequestDtos;
 using ApartShare.Models.Interfaces;
@@ -12,17 +13,28 @@ namespace ApartShare.Controllers
     {
         private readonly ILogger<ApartmentController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly JwtService _jwtService;
 
-        public ApartmentController(ILogger<ApartmentController> logger, IUnitOfWork unitOfWork)
+        public ApartmentController(ILogger<ApartmentController> logger, IUnitOfWork unitOfWork, JwtService jwtService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _jwtService = jwtService;
         }
 
         [HttpGet("apartmentsFiltered")]
         public async Task<IActionResult> GetApartmentsWithFilters([FromQuery] string? city, DateTime? fromDate, DateTime? dueDate)
         {
-            //TODO user should be logged in, JWT should be checked.
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = _jwtService.Verify(jwt);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
 
             if (dueDate == null)
             {
@@ -66,50 +78,61 @@ namespace ApartShare.Controllers
             return NotFound("No results for given query.");
         }
 
-        [HttpPost("{id}")]
-        public IActionResult CreateApartmentAsync(Guid id, [FromBody] ApartmentCreationDTO apartment)
+        [HttpPost]
+        public IActionResult CreateApartment([FromBody] ApartmentCreationDTO apartment)
         {
-            //TODO check JWT and compare id's
-
-            Apartment newApartment = new Apartment
-            {
-                Id = Guid.NewGuid(),
-                Address = apartment.Address,
-                City = apartment.City,
-                BedsNumber = apartment.BedsNumber,
-                DistanceToCenter = apartment.DistanceToCenter,
-                ImageBase64 = apartment.ImageBase64,
-                OwnerId = id
-            };
-
             try
             {
-                //If apartment already exists update its fields.
-                var checkApartment = _unitOfWork.Apartments.FindByCondition(x => x.OwnerId == id).SingleOrDefault();
-                if (checkApartment != null)
-                {
-                    checkApartment.Address = apartment.Address;
-                    checkApartment.City = apartment.City;
-                    checkApartment.BedsNumber = apartment.BedsNumber;
-                    checkApartment.DistanceToCenter = apartment.DistanceToCenter;
-                    checkApartment.ImageBase64 = apartment.ImageBase64;
+                var jwt = Request.Cookies["jwt"];
 
-                    _unitOfWork.Apartments.Update(checkApartment);
-                }
-                else
+                var token = _jwtService.Verify(jwt);
+
+                Guid userId = Guid.Parse(token.Issuer);
+
+                Apartment newApartment = new Apartment
                 {
-                    //If apartments does not exist create new one.
-                    _unitOfWork.Apartments.Create(newApartment);
+                    Id = Guid.NewGuid(),
+                    Address = apartment.Address,
+                    City = apartment.City,
+                    BedsNumber = apartment.BedsNumber,
+                    DistanceToCenter = apartment.DistanceToCenter,
+                    ImageBase64 = apartment.ImageBase64,
+                    OwnerId = userId
+                };
+
+                try
+                {
+                    //If apartment already exists update its fields.
+                    var checkApartment = _unitOfWork.Apartments.FindByCondition(x => x.OwnerId == userId).SingleOrDefault();
+                    if (checkApartment != null)
+                    {
+                        checkApartment.Address = apartment.Address;
+                        checkApartment.City = apartment.City;
+                        checkApartment.BedsNumber = apartment.BedsNumber;
+                        checkApartment.DistanceToCenter = apartment.DistanceToCenter;
+                        checkApartment.ImageBase64 = apartment.ImageBase64;
+
+                        _unitOfWork.Apartments.Update(checkApartment);
+                    }
+                    else
+                    {
+                        //If apartments does not exist create new one.
+                        _unitOfWork.Apartments.Create(newApartment);
+                    }
+                    _unitOfWork.Commit();
                 }
-                _unitOfWork.Commit();
+                catch
+                {
+
+                    return BadRequest("Error during creation.");
+                }
+
+                return Ok(apartment);
             }
-            catch
+            catch (Exception e)
             {
-
-                return BadRequest("Error during creation.");
+                return Unauthorized();
             }
-
-            return Ok(apartment);
         }
     }
 }
