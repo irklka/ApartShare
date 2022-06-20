@@ -86,24 +86,7 @@ const Register = () => {
         navigate('/login', { replace: true });
     }
 
-    const { isLoading, error, sendRequest } = useHttp({
-        url: url,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: {
-            email: enteredEmail,
-            password: enteredPassword,
-            loginName: enteredUsername,
-            fullName: enteredFullname,
-            imageBase64: baseImage,
-        }
-    }, registerData);
-
-    if (error) {
-        console.log(error);
-    }
+    const { sendRequest } = useHttp();
     // ********************************************* //
 
     // ********** Form validation logic ********** //
@@ -134,7 +117,20 @@ const Register = () => {
         }
 
         // Sending sign up request
-        sendRequest();
+        sendRequest({
+            url: url,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: {
+                email: enteredEmail,
+                password: enteredPassword,
+                loginName: enteredUsername,
+                fullName: enteredFullname,
+                imageBase64: baseImage,
+            }
+        }, registerData);
     }
     // ********************************************* //
 

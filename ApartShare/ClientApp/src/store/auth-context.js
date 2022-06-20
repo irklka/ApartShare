@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useHttp from "../hooks/use-http";
 
 const AuthContext = React.createContext({
     token: '',
@@ -8,23 +9,38 @@ const AuthContext = React.createContext({
 });
 
 export const AuthContextProvider = (props) => {
-    const initialToken = localStorage.getItem('message');
-    const [token, setToken] = useState(initialToken);
+    const [authenticated, setAuthenticated] = useState(false);
 
-    const userIsLoggedIn = !!token // This converts truthy or falsy value to a true or false boolean value
+    // // ********** Using custom http hook ********** //
+    // const { sendRequest } = useHttp();
+    // // ********************************************* //
+
+    // // useEffect(() => {
+    // //     const url = 'https://localhost:7209/api/User/check';
+
+    // //     const authContextStatus = data => {
+    // //         setAuthenticated(data.message);
+    // //     };
+
+    // //     sendRequest({
+    // //         url: url,
+    // //         credentials: 'include'
+    // //     }, authContextStatus);
+    // // }, [sendRequest]);
+
+
+    const userIsLoggedIn = !!authenticated;
 
     const loginHandler = (token) => {
-        setToken(token);
-        localStorage.setItem('message', token);
+        setAuthenticated(true);
+        // localStorage.setItem('message', token);
     }
 
     const logoutHandler = () => {
-        setToken(null);
-        localStorage.removeItem('message');
+        setAuthenticated(null);
     }
 
     const contextValue = {
-        token: token,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
         logout: logoutHandler
