@@ -43,15 +43,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+//app.UseCors();
+
 app.UseCors(options => options
-    .WithOrigins("https://localhost:44469")
+    .WithOrigins(@"https://localhost:44469")
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials()
 );
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 
