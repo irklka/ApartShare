@@ -25,7 +25,6 @@ namespace ApartShare.Controllers
         [HttpGet("check")]
         public IActionResult Check()
         {
-
             return Ok("Api is up " + Request.Cookies["jwt"]);
         }
 

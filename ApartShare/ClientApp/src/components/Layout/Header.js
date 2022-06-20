@@ -33,6 +33,7 @@ const Header = () => {
         </div>
         <nav>
             <ul className='flex'>
+                <li><Link to={'/search'} className='btn btn--outline anchor'>Search</Link></li>
                 <li>
                     <div className={classes.dropdown}>
                         <button className={`btn btn--outline ${classes['btn--cabinet']}`}

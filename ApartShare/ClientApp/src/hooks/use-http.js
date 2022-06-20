@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 
-const useHttp = (requestConfig, applyData = null) => {
+const useHttp = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
 
-    const sendRequest = async () => {
+    const sendRequest = useCallback(async (requestConfig, applyData = null) => {
         setIsLoading(true);
-        setError(null);
 
         let receivedData;
 
@@ -16,29 +14,31 @@ const useHttp = (requestConfig, applyData = null) => {
                 requestConfig.url, {
                 method: requestConfig.method ? requestConfig.method : 'GET',
                 headers: requestConfig.headers ? requestConfig.headers : {},
+                credentials: requestConfig.credentials ? requestConfig.credentials : 'omit',
                 body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
             });
+
             console.log(response);
+
             if (!response.ok) {
-                throw new Error('Request failed!!!!!!!!!!!!');
+                const error = await response.json();
+                console.log(error.message);
+                throw new Error(error.message);
             }
 
             receivedData = await response.json();
         }
         catch (err) {
-            setError(err)
+            alert(err.message);
+            return;
         }
-
+        console.log('responseOK');
         setIsLoading(false);
-
-        if (applyData != null) {
-            applyData(receivedData);
-        }
-    }
+        applyData(receivedData);
+    }, []);
 
     return {
         isLoading,
-        error,
         sendRequest
     }
 }

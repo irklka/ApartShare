@@ -34,19 +34,10 @@ const Login = () => {
 
     const loginData = data => {
         console.log(data);
-        login(data.message);
-        navigate('/profile', { replace: true })
+        navigate('/search', { replace: true })
     }
 
-    const { isLoading, error, sendRequest } = useHttp({
-        url: url,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: {
-            login: enteredUsername,
-            password: enteredPassword,
-        }
-    }, loginData);
+    const { isLoading, sendRequest } = useHttp();
     // ********************************************* //
 
     let formIsValid = false;
@@ -67,7 +58,16 @@ const Login = () => {
         }
 
         // Here will be login request
-        sendRequest();
+        sendRequest({
+            url: url,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: {
+                login: enteredUsername,
+                password: enteredPassword,
+            }
+        }, loginData);
     }
 
 
