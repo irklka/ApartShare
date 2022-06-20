@@ -9,7 +9,7 @@ namespace ApartShare.Helpers
         private readonly string secureKey = "Some Very Secury Key";
         public string Generate(Guid id)
         {
-            var symmetricSecurityKey = new  SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var header = new JwtHeader(credentials);
 
@@ -27,7 +27,7 @@ namespace ApartShare.Helpers
 
             tokenHandler.ValidateToken(jwt, new TokenValidationParameters
             {
-                IssuerSigningKey= new SymmetricSecurityKey(key),
+                IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = false,
                 ValidateAudience = false,

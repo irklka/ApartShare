@@ -50,7 +50,7 @@ namespace ApartShare.Controllers
 
             var allApartments = await _unitOfWork.Apartments.GetAllWithStatusAndDatesAsync();
 
-            if(allApartments == null)
+            if (allApartments == null)
             {
                 return NotFound($"No apartments available for this time.");
             }
