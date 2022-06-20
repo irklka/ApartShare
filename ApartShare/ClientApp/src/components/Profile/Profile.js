@@ -1,8 +1,31 @@
 import image from "../../images/people/user-1.jpg";
 import classes from "./Profile.module.css";
 import useInput from "../../hooks/use-input";
+import useHttp from "../../hooks/use-http";
+import { useEffect } from "react";
 
 const UserProfile = () => {
+
+    // ********** Using custom http hook ********** //
+    const url = 'https://localhost:7209/api/User/profile';
+
+    const logProfileInfo = data => {
+        console.log(data);
+    }
+
+    const { isLoading, error, sendRequest } = useHttp({
+        url: 'https://localhost:7209/api/User/profile'
+    }, logProfileInfo);
+
+    if (error) {
+        console.log(error);
+    }
+    // ********************************************* //
+
+    useEffect(() => {
+        sendRequest();
+    }, [])
+
     const {
         value: enteredFname,
         isValid: enteredFnameIsValid,
@@ -38,6 +61,9 @@ const UserProfile = () => {
         inputBlurHandler: descriptionBlurHandler,
         reset: resetDescriptionInput
     } = useInput(value => value.trim() !== '');
+
+
+
 
     const formSubmitHandler = event => {
         event.preventDefault();

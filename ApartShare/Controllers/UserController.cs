@@ -89,7 +89,8 @@ namespace ApartShare.Controllers
 
                 return Ok(new
                 {
-                    message = "User verified"
+                    message = "User verified",
+                    jwt = jwt
                 });
             }
 
@@ -124,6 +125,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
+                return Ok(new
+                {
+                    messaage = $"{Request.Cookies["jwt"]}"
+                });
                 return Unauthorized();
             }
 
