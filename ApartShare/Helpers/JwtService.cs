@@ -6,7 +6,7 @@ namespace ApartShare.Helpers
 {
     public class JwtService
     {
-        private string secureKey = "Some Very Secury Key";
+        private readonly string secureKey = "Some Very Secury Key";
         public string Generate(Guid id)
         {
             var symmetricSecurityKey = new  SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));

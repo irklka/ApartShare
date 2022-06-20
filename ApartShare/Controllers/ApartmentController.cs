@@ -79,7 +79,7 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateApartment([FromBody] ApartmentCreationDTO apartment)
+        public async Task<IActionResult> CreateApartmentAsync([FromBody] ApartmentCreationDTO apartment)
         {
             try
             {
@@ -103,7 +103,8 @@ namespace ApartShare.Controllers
                 try
                 {
                     //If apartment already exists update its fields.
-                    var checkApartment = _unitOfWork.Apartments.FindByCondition(x => x.OwnerId == userId).SingleOrDefault();
+                    var apart = await _unitOfWork.Apartments.FindByConditionAsync(x => x.OwnerId == userId);
+                    var checkApartment = apart.SingleOrDefault();
                     if (checkApartment != null)
                     {
                         checkApartment.Address = apartment.Address;

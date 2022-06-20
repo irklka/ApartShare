@@ -24,7 +24,7 @@ namespace ApartShare.Controllers
         }
 
         [HttpGet("myGuests")]
-        public IActionResult GetMyGuestRequests()
+        public async Task<IActionResult> GetMyGuestRequestsAsync()
         {
             try
             {
@@ -34,12 +34,14 @@ namespace ApartShare.Controllers
 
                 Guid userId = Guid.Parse(token.Issuer);
 
-                var request = _unitOfWork.Requests
-                    .FindByCondition(x => x.HostId == userId)
+                var request = await _unitOfWork.Requests
+                    .FindByConditionAsync(x => x.HostId == userId);
+
+                var response = request
                     .Select(x => x.ToRequestDTO())
                     .ToList();
 
-                return Ok(request);
+                return Ok(response);
             }
             catch
             {
@@ -49,7 +51,7 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost("changeRequestStatus")]
-        public IActionResult UpdateRequestsStatus(Guid id, int status)
+        public async Task<IActionResult> UpdateRequestsStatusAsync(Guid id, int status)
         {
             try
             {
@@ -74,11 +76,10 @@ namespace ApartShare.Controllers
                 return NotFound($"Request with id:{id} was not found.");
             }
 
-            var checkIfAleadyApproved = _unitOfWork.Requests
-                                            .FindByCondition(x => x.HostId == request.HostId
-                                                            && x.Status == RequestStatus.Accepted)
-                                            .Any();
-            if (checkIfAleadyApproved)
+            var checkIfAleadyApproved = await _unitOfWork.Requests
+                                            .FindByConditionAsync(x => x.HostId == request.HostId
+                                                            && x.Status == RequestStatus.Accepted);
+            if (checkIfAleadyApproved.Any())
             {
                 return BadRequest("Following appartment is already booked.");
             }
@@ -93,7 +94,7 @@ namespace ApartShare.Controllers
         }
 
         [HttpGet("myRequests")]
-        public IActionResult GetMyRequests()
+        public async Task<IActionResult> GetMyRequestsAsync()
         {
             try
             {
@@ -103,12 +104,14 @@ namespace ApartShare.Controllers
 
                 Guid userId = Guid.Parse(token.Issuer);
 
-                var request = _unitOfWork.Requests
-                .FindByCondition(x => x.GuestId == userId)
+                var request = await _unitOfWork.Requests
+                .FindByConditionAsync(x => x.GuestId == userId);
+
+                var response = request
                 .Select(x => x.ToRequestDTO())
                 .ToList();
 
-                return Ok(request);
+                return Ok(response);
             }
             catch
             {

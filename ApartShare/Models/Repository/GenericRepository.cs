@@ -1,6 +1,7 @@
 ﻿using ApartShare.Data;
 using ApartShare.Models.Interfaces;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 #pragma warning disable CS8603 // Possible null reference return.
 
@@ -30,9 +31,9 @@ namespace ApartShare.Models.Repository
             return Context.Set<T>();
         }
 
-        public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public async Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression)
         {
-            return Context.Set<T>().Where(expression);
+            return await Context.Set<T>().Where(expression).ToListAsync();
         }
 
         public T Get(Guid id)

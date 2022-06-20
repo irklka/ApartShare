@@ -25,14 +25,25 @@ namespace ApartShare.Controllers
         [HttpGet("check")]
         public IActionResult Check()
         {
+            bool auth = false;
 
-            return Ok("Api is up " + Request.Cookies["jwt"]);
+            if(Request.Cookies["jwt"].Length > 0)
+            {
+                auth = true;
+            }
+
+            return Ok(new
+            {
+                message = auth
+            });
         }
 
         [HttpPost("registration")]
-        public IActionResult Registration([FromBody] UserRegistrationDTO userRegistration)
+        public async Task<IActionResult> RegistrationAsync([FromBody] UserRegistrationDTO userRegistration)
         {
-            if (_unitOfWork.Users.FindByCondition(x => x.LoginName == userRegistration.LoginName).Any())
+            var checkIfLoginExists = await _unitOfWork.Users.FindByConditionAsync(x => x.LoginName == userRegistration.LoginName);
+
+            if (checkIfLoginExists.Any())
             {
                 return BadRequest(new
                 {
@@ -69,28 +80,30 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginDTO userLogin)
+        public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO userLogin)
         {
 
             var passwordHash = PasswordService.ComputeStringToSha256Hash(userLogin.Password);
-            
-            var userVerify = _unitOfWork.Users
-                .FindByCondition(x => x.LoginName == userLogin.Login
-                                    && x.Password == passwordHash).SingleOrDefault();
-            
+
+            var verify = await _unitOfWork.Users
+                .FindByConditionAsync(x => x.LoginName == userLogin.Login
+                                    && x.Password == passwordHash);
+            var userVerify = verify.SingleOrDefault();
+
             if (userVerify != null)
             {
                 var jwt = _jwtService.Generate(userVerify.Id);
 
+                Response.Cookies.Delete("jwt");
+
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
-                    HttpOnly = true,
+                    HttpOnly = true
                 });
 
                 return Ok(new
                 {
                     message = "User verified",
-                    jwt = jwt
                 });
             }
 
@@ -125,10 +138,6 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Ok(new
-                {
-                    messaage = $"{Request.Cookies["jwt"]}"
-                });
                 return Unauthorized();
             }
 

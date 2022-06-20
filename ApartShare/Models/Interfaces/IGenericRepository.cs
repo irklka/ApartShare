@@ -6,7 +6,7 @@ namespace ApartShare.Models.Interfaces
     {
         IEnumerable<T> FindAll();
 
-        IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression);
 
         T Get(Guid id);
 
