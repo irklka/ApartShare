@@ -10,7 +10,7 @@ namespace ApartShare.Models
         public string Password { get; set; }
         public string LoginName { get; set; }
         public string Name { get; set; }
-        public string ImageBase64 { get; set; }
+        public string? ImageBase64 { get; set; }
         public Apartment? MyApartment { get; set; }
     }
 }

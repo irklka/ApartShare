@@ -28,18 +28,9 @@ namespace ApartShare.Controllers
             bool auth = false;
             var jwt = Request.Cookies["jwt"];
 
-            if (jwt != null)
+            if (Request.Cookies["jwt"].Length > 0)
             {
-                try
-                {
-                    var token = _jwtService.Verify(jwt);
-                    auth = true;
-                }
-                catch
-                {
-                    auth = false;
-                    Response.Cookies.Delete("jwt");
-                }
+                auth = true;
             }
 
             return Ok(new
@@ -93,19 +84,20 @@ namespace ApartShare.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDTO userLogin)
         {
+            Response.Cookies.Delete("jwt");
 
             var passwordHash = PasswordService.ComputeStringToSha256Hash(userLogin.Password);
 
             var verify = await _unitOfWork.Users
                 .FindByConditionAsync(x => x.LoginName == userLogin.Login
                                     && x.Password == passwordHash);
+
             var userVerify = verify.SingleOrDefault();
 
             if (userVerify != null)
             {
                 var jwt = _jwtService.Generate(userVerify.Id);
 
-                Response.Cookies.Delete("jwt");
 
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {

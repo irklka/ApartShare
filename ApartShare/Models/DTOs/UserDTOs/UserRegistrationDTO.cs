@@ -16,7 +16,6 @@ namespace ApartShare.Models.DTOs.UserDtos
         [Required]
         [StringLength(255, MinimumLength = 2)]
         public string FullName { get; set; }
-        [Required]
-        public string ImageBase64 { get; set; }
+        public string? ImageBase64 { get; set; }
     }
 }
