@@ -2,42 +2,66 @@ import React, { useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
 
 const AuthContext = React.createContext({
-    token: '',
     isLoggedIn: false,
-    login: (token) => { },
+    login: (status) => { },
     logout: () => { }
 });
 
 export const AuthContextProvider = (props) => {
-    const [authenticated, setAuthenticated] = useState(false);
+    const initialValue = localStorage.getItem('auth');
+    const [authenticated, setAuthenticated] = useState(initialValue);
 
-    // // ********** Using custom http hook ********** //
-    // const { sendRequest } = useHttp();
+    // console.log(`authenticated - ${authenticated}`);
+
+    // // ********** Using custom http hook for check ********** //
+    // const { sendRequest: checkAuthentication } = useHttp();
     // // ********************************************* //
 
-    // // useEffect(() => {
-    // //     const url = 'https://localhost:7209/api/User/check';
+    // ********** Using custom http hook for logout ********** //
+    const url = 'https://localhost:7209/api/User/logout';
 
-    // //     const authContextStatus = data => {
-    // //         setAuthenticated(data.message);
-    // //     };
+    const logoutResponse = (res) => {
+        console.log(res);
+    }
 
-    // //     sendRequest({
-    // //         url: url,
-    // //         credentials: 'include'
-    // //     }, authContextStatus);
-    // // }, [sendRequest]);
+    const { sendRequest: logoutUser } = useHttp();
+    // ********************************************* //
+
+    // useEffect(() => {
+    //     console.log('checked!!!');
+
+    //     const url = 'https://localhost:7209/api/User/check';
+
+    //     const authContextStatus = data => {
+    //         data.message && setAuthenticated(data.message);
+    //     };
+
+    //     checkAuthentication({
+    //         url: url,
+    //         credentials: 'include'
+    //     }, authContextStatus);
+    // }, [checkAuthentication]);
 
 
     const userIsLoggedIn = !!authenticated;
 
-    const loginHandler = (token) => {
-        setAuthenticated(true);
-        // localStorage.setItem('message', token);
+    const loginHandler = (status) => {
+        setAuthenticated(status);
+        localStorage.setItem('auth', status)
     }
 
     const logoutHandler = () => {
         setAuthenticated(null);
+        localStorage.removeItem('auth');
+
+        logoutUser({
+            url: url,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        }, logoutResponse);
     }
 
     const contextValue = {

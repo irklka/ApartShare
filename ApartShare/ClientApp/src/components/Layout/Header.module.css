@@ -16,6 +16,12 @@
   letter-spacing: 1px;
 }
 
+.username {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #3c228b;
+}
+
 .dropdown {
   position: relative;
 }

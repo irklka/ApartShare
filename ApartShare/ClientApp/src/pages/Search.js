@@ -1,10 +1,16 @@
-
+import { useEffect, useContext } from "react";
 import classes from "./Search.module.css";
 import useInput from "../hooks/use-input";
 import SearchPageCart from "../components/Cards/SearchPageCart";
 import { appartmentData } from '../Data/result-data';
+import useHttp from '../hooks/use-http';
+// import UserContext from "../store/user-context";
+
 
 const Search = () => {
+    // const { LoggedInUser: setUserData } = useContext(UserContext);
+
+    // ********** Using custom input hook ********** //
     const {
         value: enteredLocation,
         isValid: enteredLocationIsValid,
@@ -22,6 +28,7 @@ const Search = () => {
         inputBlurHandler: checkStatusBlurHandler,
         reset: resetCheckStatusInput
     } = useInput(value => value.trim() != '');
+    // ********************************************* //
 
     const formSubmitHandler = () => {
 
@@ -38,8 +45,9 @@ const Search = () => {
             </form>
 
             <div className={`grid grid--2-cols ${classes['search-container']}`}>
-                {appartmentData.map(data => {
+                {appartmentData.map((data, i) => {
                     return <SearchPageCart
+                        key={i}
                         img={data.img}
                         address={data.address}
                         distance={data.distance}

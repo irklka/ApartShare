@@ -26,16 +26,27 @@ namespace ApartShare.Controllers
         public IActionResult Check()
         {
             bool auth = false;
+            var jwt = Request.Cookies["jwt"];
 
-            if (Request.Cookies["jwt"].Length > 0)
+            if (jwt != null)
             {
-                auth = true;
+                try
+                {
+                    var token = _jwtService.Verify(jwt);
+                    auth = true;
+                }
+                catch
+                {
+                    auth = false;
+                    Response.Cookies.Delete("jwt");
+                }
             }
 
             return Ok(new
             {
                 message = auth
             });
+
         }
 
         [HttpPost("registration")]

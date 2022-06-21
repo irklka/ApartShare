@@ -1,0 +1,8 @@
+/** @format */
+
+.loadingMessage {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #3c228b;
+}
