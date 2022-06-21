@@ -28,8 +28,18 @@ namespace ApartShare.Controllers
             bool auth = false;
             var jwt = Request.Cookies["jwt"];
 
-            if (Request.Cookies["jwt"].Length > 0)
+            if (jwt != null)
             {
+                try
+                {
+                    var token = _jwtService.Verify(jwt);
+                    auth = true;
+                }
+                catch
+                {
+                    auth = false;
+                    Response.Cookies.Delete("jwt");
+                }
                 auth = true;
             }
 
