@@ -101,7 +101,7 @@ const UserProfile = (props) => {
                         />
                         {/* <p className={invalidPasswordClass}>Please enter at least 7 characters</p> */}
                     </div>
-                    <button className={`btn btn--full btn--save-changes`}>Save changes</button>
+                    {/* <button className={`btn btn--full btn--save-changes`}>Save changes</button> */}
                 </form>
             </div>
         </div>

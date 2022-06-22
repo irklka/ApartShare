@@ -4,34 +4,65 @@ import useInput from "../hooks/use-input";
 import SearchPageCart from "../components/Cards/SearchPageCart";
 import { appartmentData } from '../Data/result-data';
 import useHttp from '../hooks/use-http';
-// import UserContext from "../store/user-context";
 
 
 const Search = () => {
-    // const { LoggedInUser: setUserData } = useContext(UserContext);
 
     // ********** Using custom input hook ********** //
     const {
-        value: enteredLocation,
-        isValid: enteredLocationIsValid,
-        hasError: locationInputHasError,
-        valueChangeHandler: locationChangeHandler,
-        inputBlurHandler: locationBlurHandler,
-        reset: resetLocationInput
+        value: enteredCity,
+        isValid: enteredCityIsValid,
+        hasError: cityInputHasError,
+        valueChangeHandler: cityChangeHandler,
+        inputBlurHandler: cityBlurHandler,
+        reset: resetCityInput
     } = useInput(value => value.trim() != '');
 
     const {
-        value: enteredCheckStatus,
-        isValid: enteredCheckStatusIsValid,
-        hasError: checkStatusInputHasError,
-        valueChangeHandler: checkStatusChangeHandler,
-        inputBlurHandler: checkStatusBlurHandler,
-        reset: resetCheckStatusInput
+        value: enteredFromDate,
+        isValid: enteredFromDateIsValid,
+        hasError: fromDateInputHasError,
+        valueChangeHandler: fromDateChangeHandler,
+        inputBlurHandler: fromDateBlurHandler,
+        reset: resetFromDateInput
+    } = useInput(value => value.trim() != '');
+
+    const {
+        value: enteredDueDate,
+        isValid: enteredDueDateIsValid,
+        hasError: dueDateInputHasError,
+        valueChangeHandler: dueDateChangeHandler,
+        inputBlurHandler: dueDateBlurHandler,
+        reset: resetDueDateInput
     } = useInput(value => value.trim() != '');
     // ********************************************* //
 
-    const formSubmitHandler = () => {
+    // ********** Using custom http hook ********** //
+    const url = `https://localhost:7209/api/Apartment/apartmentsFiltered?city=${enteredCity}&fromDate=${enteredFromDate}&dueDate=${enteredDueDate}`;
 
+    const searchResult = data => {
+        console.log(data);
+    }
+
+    const { sendRequest: searchApartments } = useHttp();
+    // ********************************************* //
+
+    const formSubmitHandler = event => {
+        event.preventDefault();
+        console.log(enteredFromDate);
+        console.log(enteredDueDate);
+        console.log('entered');
+        console.log(url);
+
+        if (enteredDueDate < enteredFromDate) {
+            alert("Please enter valid date range");
+            return
+        }
+
+        searchApartments({
+            url: url,
+            credentials: 'include'
+        }, searchResult);
     }
 
     return <div className="page">
@@ -39,8 +70,9 @@ const Search = () => {
             <h1 className="page-heading">Find Appartments</h1>
 
             <form onSubmit={formSubmitHandler} className={classes['search-form']}>
-                <input onChange={locationChangeHandler} value={enteredLocation} type="text" placeholder="Search location" />
-                <input onChange={checkStatusChangeHandler} value={enteredCheckStatus} type="date" placeholder="Check in - Check out" />
+                <input onChange={cityChangeHandler} value={enteredCity} type="text" placeholder="Search by City" />
+                <input onChange={fromDateChangeHandler} value={enteredFromDate} type="date" placeholder="From" />
+                <input onChange={dueDateChangeHandler} value={enteredDueDate} type="date" placeholder="to" />
                 <button className="btn btn--full">Search</button>
             </form>
 

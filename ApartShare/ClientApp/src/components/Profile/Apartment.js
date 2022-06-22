@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import classes from './Appartment.module.css';
+import classes from './Apartment.module.css';
 import useInput from '../../hooks/use-input';
 import useHttp from '../../hooks/use-http';
 import apartmentAvatar from './../../images/house.png'
@@ -16,8 +16,8 @@ const arrowUp = <svg xmlns="http://www.w3.org/2000/svg" className='icon' fill="n
 </svg>
 
 
-const Appartment = (props) => {
-    console.log(props.Appartment);
+const Apartment = (props) => {
+    console.log(props.Apartment);
 
     const [toggleAccordion, setToggleAccordion] = useState(false);
     const [baseImage, setBaseImage] = useState("");
@@ -106,11 +106,11 @@ const Appartment = (props) => {
     // ********** Using custom http hook ********** //
     const url = 'https://localhost:7209/api/Apartment';
 
-    const registerAppartmentData = data => {
+    const registerApartmentData = data => {
         console.log(data);
     }
 
-    const { sendRequest: addAppartment } = useHttp();
+    const { sendRequest: addApartment } = useHttp();
     // ********************************************* //
 
 
@@ -127,7 +127,7 @@ const Appartment = (props) => {
 
         console.log(enteredData);
 
-        addAppartment({
+        addApartment({
             url: url,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -139,24 +139,24 @@ const Appartment = (props) => {
                 imageBase64: baseImage,
                 distanceToCenter: enteredDistanceToCenter
             }
-        }, registerAppartmentData);
+        }, registerApartmentData);
     }
 
-    const addAppartmentClickHandler = event => {
+    const addApartmentClickHandler = event => {
         setToggleAccordion(prev => !prev);
     }
 
 
     return <div className='container'>
-        <div className={`accordion ${classes['appartment-form-container']}`}>
-            <div onClick={addAppartmentClickHandler} className={`item ${itemBorderClass}`}>
-                <p>Add an appartment</p>
+        <div className={`accordion ${classes['apartment-form-container']}`}>
+            <div onClick={addApartmentClickHandler} className={`item ${itemBorderClass}`}>
+                <p>Add an apartment</p>
                 {toggleAccordion ? arrowUp : arrowDown}
             </div>
             <div className={`grid--2-cols ${classes['div--content']} ${displayContentClass}`}>
                 <div className={`form-container text-align-left 
             ${classes['pofile-form']}
-            ${classes['profile-form--appartment']}`}>
+            ${classes['profile-form--apartment']}`}>
                     <form>
                         <div className="input-div">
                             <input
@@ -164,7 +164,7 @@ const Appartment = (props) => {
                                 onBlur={cityBlurHandler}
                                 type='text'
                                 value={enteredCity}
-                                placeholder={`${props.Appartment && "City: " + props.Appartment.city || 'city'}`}
+                                placeholder={`${props.Apartment && "City: " + props.Apartment.city || 'city'}`}
                             />
                             {/* <p className={invalidFnameClass}>Please do not leave input blank</p> */}
                         </div>
@@ -174,7 +174,7 @@ const Appartment = (props) => {
                                 onBlur={addressBlurHandler}
                                 type='text'
                                 value={enteredAddress}
-                                placeholder={`${props.Appartment && "Address: " + props.Appartment.address || 'address'}`}
+                                placeholder={`${props.Apartment && "Address: " + props.Apartment.address || 'address'}`}
                             />
                             {/* <p className={invalidLnameClass}>Please do not leave input blank</p> */}
                         </div>
@@ -184,7 +184,7 @@ const Appartment = (props) => {
                                 onBlur={distanceToCenterBlurHandler}
                                 type='email'
                                 value={enteredDistanceToCenter}
-                                placeholder={`${props.Appartment && "Distance to center: " + props.Appartment.distanceToCenter || 'Distance to center'}`}
+                                placeholder={`${props.Apartment && "Distance to center: " + props.Apartment.distanceToCenter || 'Distance to center'}`}
                             />
                             {/* <p className={invalidEmailClass}>Please enter valid email</p> */}
                         </div>
@@ -194,7 +194,7 @@ const Appartment = (props) => {
                                 onBlur={numOfGuestsBlurHandler}
                                 type='text'
                                 value={enteredNumOfGuests}
-                                placeholder={`${props.Appartment && "Max number of guests: " + props.Appartment.bedsNumber || 'Max number of guests'}`}
+                                placeholder={`${props.Apartment && "Max number of guests: " + props.Apartment.bedsNumber || 'Max number of guests'}`}
                             />
                             {/* <p className={invalidPasswordClass}>Please enter at least 7 characters</p> */}
                         </div>
@@ -204,7 +204,7 @@ const Appartment = (props) => {
                                 onBlur={descriptionBlurHandler}
                                 type='text'
                                 value={enteredDescription}
-                                placeholder={`${props.Appartment && props.Appartment.description || 'Description'}`}
+                                placeholder={`${props.Apartment && props.Apartment.description || 'Description'}`}
                             />
                             {/* <p className={invalidPasswordClass}>Please enter at least 7 characters</p> */}
                         </div>
@@ -215,7 +215,7 @@ const Appartment = (props) => {
                     </form>
                 </div>
                 <div className={`${classes['user-img-container']}`}>
-                    <img className={classes['user-profile-img']} src={props.Appartment && props.Appartment.imageBase64 || apartmentAvatar} alt='House' />
+                    <img className={classes['user-profile-img']} src={props.Apartment && props.Apartment.imageBase64 || apartmentAvatar} alt='House' />
                 </div>
             </div>
         </div>
@@ -224,4 +224,4 @@ const Appartment = (props) => {
     </div>
 }
 
-export default Appartment;
+export default Apartment;

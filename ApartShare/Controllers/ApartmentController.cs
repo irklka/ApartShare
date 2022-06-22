@@ -61,6 +61,7 @@ namespace ApartShare.Controllers
                     .Where(x => x.City.ToLower().Contains(city.ToLower()));
 
             }
+            // TODO remove else
             else if (fromDate != null && fromDate < dueDate)
             {
                 allApartments = allApartments

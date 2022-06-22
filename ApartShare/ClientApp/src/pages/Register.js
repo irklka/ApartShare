@@ -95,8 +95,7 @@ const Register = () => {
     if (enteredFullnameIsValid &&
         enteredPasswordIsValid &&
         enteredEmailIsValid &&
-        enteredUsernameIsValid &&
-        uploadedImageIsValid) {
+        enteredUsernameIsValid) {
         formIsValid = true;
     }
     // ********************************************* //
@@ -194,7 +193,7 @@ const Register = () => {
                     <p className={invalidPasswordClass}>Please enter at least 7 characters</p>
                 </div>
                 <div className="input-div">
-                    <input type="file" onChange={uploadImage} onBlur={imageBlurHandler} />
+                    <input type="file" accept="image/*" onChange={uploadImage} onBlur={imageBlurHandler} />
                     <p className={invalidFileClass}>Please upload valid image</p>
                 </div>
                 <button className={`btn btn--full ${classes['btn--register']}`}>Register</button>

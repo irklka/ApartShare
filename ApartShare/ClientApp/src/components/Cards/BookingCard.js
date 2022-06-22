@@ -20,7 +20,7 @@ const BookingsCard = () => {
                 <div className={`${classes['booking-card--status-div']}
                 ${classes[`booking-card--status-${status}`]}`}>
                     <ion-icon name="radio-button-on-outline"></ion-icon>
-                    <span>Pending</span>
+                    <span>{status}</span>
                 </div>
             </div>
         </div>

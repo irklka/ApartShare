@@ -30,6 +30,11 @@
   font-size: 1.2rem;
 }
 
+.date {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
 .result-card--bot {
   display: flex;
   justify-content: space-between;
@@ -43,4 +48,33 @@
 
 .btn--book-now {
   flex-grow: 1;
+}
+
+.btn--unavailable {
+  background-color: #888 !important;
+  border: 1px solid #888 !important;
+}
+
+.searchResult-card--status-div ion-icon {
+  font-size: 2.5rem;
+}
+
+.searchResult-card--status-available {
+  color: #18a0fb;
+}
+
+.searchResult-card--status-unavailable {
+  color: #ff9292;
+}
+
+.searchResult-card--bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.searchResult-card--status-div {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
 }
