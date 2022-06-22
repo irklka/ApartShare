@@ -4,6 +4,7 @@ using ApartShare.Models.Extensions;
 using ApartShare.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ApartShare.Helpers;
+using System.Diagnostics;
 
 namespace ApartShare.Controllers
 {
@@ -65,6 +66,10 @@ namespace ApartShare.Controllers
 
             var passwordHash = PasswordService.ComputeStringToSha256Hash(userRegistration.Password);
 
+
+            //var base64ToByteArray = Convert.FromBase64String(userRegistration.ImageBase64.Split(",")[1]);
+
+
             User user = new User
             {
                 Id = Guid.NewGuid(),
@@ -72,6 +77,7 @@ namespace ApartShare.Controllers
                 Email = userRegistration.Email,
                 LoginName = userRegistration.LoginName,
                 ImageBase64 = userRegistration.ImageBase64,
+                //ImageBase64ByteArray = base64ToByteArray,
                 Password = passwordHash
             };
 
@@ -107,7 +113,6 @@ namespace ApartShare.Controllers
             if (userVerify != null)
             {
                 var jwt = _jwtService.Generate(userVerify.Id);
-
 
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {

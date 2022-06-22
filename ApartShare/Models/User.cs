@@ -11,6 +11,7 @@ namespace ApartShare.Models
         public string LoginName { get; set; }
         public string Name { get; set; }
         public string? ImageBase64 { get; set; }
+        //public byte[] ImageBase64ByteArray { get; set; }
         public Apartment? MyApartment { get; set; }
     }
 }
