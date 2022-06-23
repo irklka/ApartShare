@@ -52,7 +52,10 @@ namespace ApartShare.Controllers
 
             if (allApartments == null)
             {
-                return NotFound($"No apartments available for this time.");
+                return Ok(new
+                {
+                    message = "No apartments available for this time."
+                });
             }
 
             if (city != null)
@@ -61,8 +64,7 @@ namespace ApartShare.Controllers
                     .Where(x => x.City.ToLower().Contains(city.ToLower()));
 
             }
-            // TODO remove else
-            else if (fromDate != null && fromDate < dueDate)
+            if (fromDate != null && fromDate < dueDate)
             {
                 allApartments = allApartments
                     .Where(x => (x.FromDate >= dueDate || x.DueDate <= fromDate));
@@ -76,7 +78,10 @@ namespace ApartShare.Controllers
                 return Ok(response);
             }
 
-            return NotFound("No results for given query.");
+            return Ok(new
+            {
+                message = "No results for given query."
+            });
         }
 
         [HttpPost]
@@ -90,6 +95,8 @@ namespace ApartShare.Controllers
 
                 Guid userId = Guid.Parse(token.Issuer);
 
+                var base64ToByteArray = Base64Converter.FromBase64StringSafe(apartment.ImageBase64);
+
                 Apartment newApartment = new Apartment
                 {
                     Id = Guid.NewGuid(),
@@ -97,7 +104,7 @@ namespace ApartShare.Controllers
                     City = apartment.City,
                     BedsNumber = apartment.BedsNumber,
                     DistanceToCenter = apartment.DistanceToCenter,
-                    ImageBase64 = apartment.ImageBase64,
+                    ImageBase64ByteArray = base64ToByteArray,
                     OwnerId = userId
                 };
 
@@ -112,7 +119,7 @@ namespace ApartShare.Controllers
                         checkApartment.City = apartment.City;
                         checkApartment.BedsNumber = apartment.BedsNumber;
                         checkApartment.DistanceToCenter = apartment.DistanceToCenter;
-                        checkApartment.ImageBase64 = apartment.ImageBase64;
+                        checkApartment.ImageBase64ByteArray = base64ToByteArray;
 
                         _unitOfWork.Apartments.Update(checkApartment);
                     }
@@ -126,7 +133,10 @@ namespace ApartShare.Controllers
                 catch
                 {
 
-                    return BadRequest("Error during creation.");
+                    return BadRequest(new
+                    {
+                        message = "Error during creation."
+                    });
                 }
 
                 return Ok(apartment);

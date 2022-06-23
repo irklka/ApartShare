@@ -66,8 +66,7 @@ namespace ApartShare.Controllers
 
             var passwordHash = PasswordService.ComputeStringToSha256Hash(userRegistration.Password);
 
-
-            //var base64ToByteArray = Convert.FromBase64String(userRegistration.ImageBase64.Split(",")[1]);
+            var base64ToByteArray = Base64Converter.FromBase64StringSafe(userRegistration.ImageBase64);
 
 
             User user = new User
@@ -76,8 +75,8 @@ namespace ApartShare.Controllers
                 Name = userRegistration.FullName,
                 Email = userRegistration.Email,
                 LoginName = userRegistration.LoginName,
-                ImageBase64 = userRegistration.ImageBase64,
-                //ImageBase64ByteArray = base64ToByteArray,
+                //ImageBase64 = userRegistration.ImageBase64,
+                ImageBase64ByteArray = base64ToByteArray ,
                 Password = passwordHash
             };
 

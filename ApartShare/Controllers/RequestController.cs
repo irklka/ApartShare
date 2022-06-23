@@ -66,14 +66,20 @@ namespace ApartShare.Controllers
 
             if (status > 2 || status < 0)
             {
-                return BadRequest("Invalid status");
+                return BadRequest(new
+                {
+                    message = "Invalid status"
+                });
             }
 
             var request = _unitOfWork.Requests.Get(id);
 
             if (request == null)
             {
-                return NotFound($"Request with id:{id} was not found.");
+                return NotFound(new
+                {
+                    message = $"Request with id:{id} was not found."
+                });
             }
 
             var checkIfAleadyApproved = await _unitOfWork.Requests
@@ -81,7 +87,10 @@ namespace ApartShare.Controllers
                                                             && x.Status == RequestStatus.Accepted);
             if (checkIfAleadyApproved.Any())
             {
-                return BadRequest("Following appartment is already booked.");
+                return BadRequest(new
+                {
+                    message = "Following appartment is already booked."
+                });
             }
 
             var newStatusEnum = (RequestStatus)status;
@@ -139,7 +148,11 @@ namespace ApartShare.Controllers
 
             if (checkGuest == null || checkHost == null)
             {
-                return BadRequest("Guest or Host doesn't exist.");
+                return BadRequest(
+                    new
+                    {
+                        message = "Guest or Host doesn't exist."
+                    });
             }
 
             Request newRequest = new Request
@@ -161,7 +174,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return BadRequest("Error during creation.");
+                return BadRequest(new
+                {
+                    message = "Error during creation."
+                });
             }
 
             return Ok(newRequest.ToRequestDTO());

@@ -1,4 +1,5 @@
 ﻿using ApartShare.Data;
+using ApartShare.Helpers;
 using ApartShare.Models.DTOs.ApartmentDtos;
 using ApartShare.Models.Enums;
 using ApartShare.Models.Interfaces;
@@ -18,6 +19,8 @@ namespace ApartShare.Models.Repository
 
             foreach (var apartment in apartments)
             {
+                var imageBase64String = Base64Converter.Base64BytesToString(apartment.ImageBase64ByteArray);
+
                 var newApartment = new ApartmentDTO
                 {
                     Address = apartment.Address,
@@ -25,7 +28,7 @@ namespace ApartShare.Models.Repository
                     DistanceToCenter = apartment.DistanceToCenter,
                     BedsNumber = apartment.BedsNumber,
                     OwnerId = apartment.OwnerId,
-                    ImageBase64 = apartment.ImageBase64,
+                    ImageBase64 = imageBase64String,
                     FromDate = default,
                     DueDate = default,
                     Status = default

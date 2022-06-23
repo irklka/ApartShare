@@ -4,6 +4,7 @@ using ApartShare.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApartShare.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20220623092810_StoringImageAsByteArrayNULLABLEApartments")]
+    partial class StoringImageAsByteArrayNULLABLEApartments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,6 @@ namespace ApartShare.Migrations
                         .HasColumnType("float");
 
                     b.Property<byte[]>("ImageBase64ByteArray")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<Guid>("OwnerId")
