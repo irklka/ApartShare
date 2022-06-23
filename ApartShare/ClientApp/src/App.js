@@ -82,9 +82,11 @@ const App = () => {
           fullName={userData.fullName}
           username={userData.username}
           email={userData.email}
-          Appartment={userData.usersApartment}
+          Apartment={userData.usersApartment}
         />} />}
-        {isLoggedIn && <Route path="/search" element={<Search />} />}
+        {isLoggedIn && <Route path="/search" element={<Search
+          userId={userData.id}
+        />} />}
         {isLoggedIn && <Route path="/my-guests" element={<MyGuests />} />}
         {isLoggedIn && <Route path="/my-bookings" element={<MyBookings />} />}
         <Route path='*' element={<Navigate replace to={isLoggedIn ? '/search' : '/'} />} />

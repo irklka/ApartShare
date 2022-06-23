@@ -17,7 +17,7 @@ const arrowUp = <svg xmlns="http://www.w3.org/2000/svg" className='icon' fill="n
 
 
 const Apartment = (props) => {
-    console.log(props.Apartment);
+    // console.log(props.Apartment);
 
     const [toggleAccordion, setToggleAccordion] = useState(false);
     const [baseImage, setBaseImage] = useState("");
@@ -182,9 +182,9 @@ const Apartment = (props) => {
                             <input
                                 onChange={distanceToCenterChangeHandler}
                                 onBlur={distanceToCenterBlurHandler}
-                                type='email'
+                                type='number'
                                 value={enteredDistanceToCenter}
-                                placeholder={`${props.Apartment && "Distance to center: " + props.Apartment.distanceToCenter || 'Distance to center'}`}
+                                placeholder={`${props.Apartment && "Distance to center: " + props.Apartment.distanceToCenter + " meters" || 'Distance to center'}`}
                             />
                             {/* <p className={invalidEmailClass}>Please enter valid email</p> */}
                         </div>
@@ -192,7 +192,7 @@ const Apartment = (props) => {
                             <input
                                 onChange={numOfGuestsChangeHandler}
                                 onBlur={numOfGuestsBlurHandler}
-                                type='text'
+                                type='number'
                                 value={enteredNumOfGuests}
                                 placeholder={`${props.Apartment && "Max number of guests: " + props.Apartment.bedsNumber || 'Max number of guests'}`}
                             />

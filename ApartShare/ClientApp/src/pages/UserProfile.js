@@ -60,7 +60,7 @@ const UserProfile = (props) => {
                     email={props.email}
                 />
                 <Appartment
-                    Appartment={props.usersAppartment}
+                    Apartment={props.Apartment}
                 />
             </React.Fragment>}
     </div>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApartShare.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20220623083504_StoringImageAsByteArrayNULLABLE")]
-    partial class StoringImageAsByteArrayNULLABLE
+    [Migration("20220623170737_AlterTable")]
+    partial class AlterTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,9 +44,9 @@ namespace ApartShare.Migrations
                     b.Property<double>("DistanceToCenter")
                         .HasColumnType("float");
 
-                    b.Property<string>("ImageBase64")
+                    b.Property<byte[]>("ImageBase64ByteArray")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uniqueidentifier");

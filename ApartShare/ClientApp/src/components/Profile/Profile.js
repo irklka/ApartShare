@@ -35,20 +35,7 @@ const UserProfile = (props) => {
         reset: resetEmailInput,
         setInputValue: setEmail
     } = useInput(value => value.includes('@'));
-
-    const {
-        value: enteredDescription,
-        isValid: enteredDescriptionIsValid,
-        hasError: descriptionInbutHasError,
-        valueChangeHandler: descriptionChangeHandler,
-        inputBlurHandler: descriptionBlurHandler,
-        reset: resetDescriptionInput
-    } = useInput(value => value.trim() !== '');
     // ********************************************* //
-
-    const formSubmitHandler = event => {
-        event.preventDefault();
-    }
 
     return <div className={`container ${classes['text-align-center']}`}>
         <h1 className="heading">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -58,7 +45,7 @@ const UserProfile = (props) => {
                 <img className={classes['user-profile-img']} src={props.image} alt="User's profile photo" />
             </div>
             <div className={`form-container text-align-left ${classes['pofile-form']}`}>
-                <form onSubmit={formSubmitHandler}>
+                <form>
                     <div className={`flex ${classes['form-gap']}`}>
                         <div className="input-div">
                             <input
@@ -91,17 +78,6 @@ const UserProfile = (props) => {
                         />
                         {/* <p className={invalidEmailClass}>Please enter valid email</p> */}
                     </div>
-                    <div className="input-div">
-                        <textarea rows={3}
-                            onChange={descriptionChangeHandler}
-                            onBlur={descriptionBlurHandler}
-                            type='text'
-                            value={enteredDescription}
-                            placeholder='Something about yourself'
-                        />
-                        {/* <p className={invalidPasswordClass}>Please enter at least 7 characters</p> */}
-                    </div>
-                    {/* <button className={`btn btn--full btn--save-changes`}>Save changes</button> */}
                 </form>
             </div>
         </div>

@@ -1,12 +1,12 @@
-import { useEffect, useContext } from "react";
+import { useState } from "react";
 import classes from "./Search.module.css";
 import useInput from "../hooks/use-input";
-import SearchPageCart from "../components/Cards/SearchPageCart";
-import { appartmentData } from '../Data/result-data';
+import SearchPageCard from "../components/Cards/SearchPageCard";
 import useHttp from '../hooks/use-http';
 
 
-const Search = () => {
+const Search = (props) => {
+    const [searchResult, setSearchResult] = useState([]);
 
     // ********** Using custom input hook ********** //
     const {
@@ -40,11 +40,16 @@ const Search = () => {
     // ********** Using custom http hook ********** //
     const url = `https://localhost:7209/api/Apartment/apartmentsFiltered?city=${enteredCity}&fromDate=${enteredFromDate}&dueDate=${enteredDueDate}`;
 
-    const searchResult = data => {
+    const searchHelper = data => {
         console.log(data);
+        if (data?.message) {
+            setSearchResult("Result was not found");
+        } else {
+            setSearchResult(data.apartments);
+        }
     }
 
-    const { sendRequest: searchApartments } = useHttp();
+    const { isLoading: dataIsLoading, sendRequest: searchApartments } = useHttp();
     // ********************************************* //
 
     const formSubmitHandler = event => {
@@ -62,8 +67,42 @@ const Search = () => {
         searchApartments({
             url: url,
             credentials: 'include'
-        }, searchResult);
+        }, searchHelper);
     }
+
+    // console.log(searchResult);
+
+    const loadingElement = <div className={classes.loadingAndSearchMessage}>
+        <p>Result is loading, please wait few seconds...</p>
+    </div>;
+
+    const resultElement =
+        typeof (searchResult) === 'string' ?
+            <div className={classes.loadingAndSearchMessage}>
+                <p>{searchResult}</p>
+            </div>
+            :
+            <div className={`grid grid--2-cols ${classes['search-container']}`}>
+                {searchResult.map(apartment => {
+                    return <SearchPageCard
+                        key={apartment.ownerId}
+                        hostId={apartment.ownerId}
+                        img={apartment.imageBase64}
+                        city={apartment.city}
+                        address={apartment.address}
+                        distance={apartment.distanceToCenter}
+                        beds={apartment.bedsNumber}
+                        fromDate={apartment.fromDate}
+                        dueDate={apartment.dueDate}
+                        status={apartment.status}
+                        guestId={props.userId}
+                    />
+                })
+                }
+            </div>
+
+
+
 
     return <div className="page">
         <div className="container">
@@ -71,23 +110,13 @@ const Search = () => {
 
             <form onSubmit={formSubmitHandler} className={classes['search-form']}>
                 <input onChange={cityChangeHandler} value={enteredCity} type="text" placeholder="Search by City" />
-                <input onChange={fromDateChangeHandler} value={enteredFromDate} type="date" placeholder="From" />
-                <input onChange={dueDateChangeHandler} value={enteredDueDate} type="date" placeholder="to" />
+                <input onChange={fromDateChangeHandler} value={enteredFromDate} type="date" />
+                <input onChange={dueDateChangeHandler} value={enteredDueDate} type="date" />
                 <button className="btn btn--full">Search</button>
             </form>
 
-            <div className={`grid grid--2-cols ${classes['search-container']}`}>
-                {appartmentData.map((data, i) => {
-                    return <SearchPageCart
-                        key={i}
-                        img={data.img}
-                        address={data.address}
-                        distance={data.distance}
-                        beds={data.beds}
-                        description={data.description}
-                    />
-                })}
-            </div>
+            {dataIsLoading ? loadingElement : resultElement}
+
         </div>
     </div>
 }

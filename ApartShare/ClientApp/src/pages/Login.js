@@ -62,7 +62,6 @@ const Login = () => {
         sendRequest({
             url: url,
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: {
                 login: enteredUsername,
@@ -88,8 +87,8 @@ const Login = () => {
                             onBlur={usernameBlurHandler}
                             onChange={usernameChangeHandler}
                             value={enteredUsername}
-                            type='email'
-                            placeholder="Email"
+                            type='text'
+                            placeholder="Username"
                         />
                         <p className={invalidUsernameClass}>Please enter valid username</p>
                     </div>

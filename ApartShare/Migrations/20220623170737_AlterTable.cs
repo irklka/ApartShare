@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ApartShare.Migrations
 {
-    public partial class initial : Migration
+    public partial class AlterTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,7 @@ namespace ApartShare.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LoginName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageBase64 = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ImageBase64ByteArray = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,7 +33,7 @@ namespace ApartShare.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BedsNumber = table.Column<int>(type: "int", nullable: true),
-                    ImageBase64 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageBase64ByteArray = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     DistanceToCenter = table.Column<double>(type: "float", nullable: false),
                     OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

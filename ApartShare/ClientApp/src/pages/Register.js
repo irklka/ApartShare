@@ -10,7 +10,7 @@ const Register = () => {
     const [baseImage, setBaseImage] = useState("");
     const [fileInputIsTouched, setFileInputIsTouched] = useState(false);
 
-    const uploadedImageIsValid = baseImage.includes('image');
+    const uploadedImageIsValid = baseImage.includes('image') || baseImage !== "";
     const fileInputHasError = !uploadedImageIsValid && fileInputIsTouched;
 
     // ********** Using custom input hook ********** //
@@ -109,7 +109,6 @@ const Register = () => {
         userNameBlurHandler();
         emailBlurHandler();
         passwordBlurHandler();
-        imageBlurHandler()
 
         if (!formIsValid) {
             return;
@@ -193,7 +192,12 @@ const Register = () => {
                     <p className={invalidPasswordClass}>Please enter at least 7 characters</p>
                 </div>
                 <div className="input-div">
-                    <input type="file" accept="image/*" onChange={uploadImage} onBlur={imageBlurHandler} />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={uploadImage}
+                        onBlur={imageBlurHandler}
+                    />
                     <p className={invalidFileClass}>Please upload valid image</p>
                 </div>
                 <button className={`btn btn--full ${classes['btn--register']}`}>Register</button>
