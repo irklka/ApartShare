@@ -41,6 +41,11 @@ namespace ApartShare.Controllers
                 dueDate = DateTime.Now.AddDays(7);
             }
 
+            if (fromDate == null)
+            {
+                fromDate = DateTime.Now;
+            }
+
             var response = new ApartmentsDTO()
             {
                 City = city,
