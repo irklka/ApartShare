@@ -9,8 +9,8 @@ namespace ApartShare.Models.DTOs.ApartmentDtos
         public int? BedsNumber { get; set; }
         public string ImageBase64 { get; set; }
         public double DistanceToCenter { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? DueDate { get; set; }
         public RequestStatus Status { get; set; }
         public Guid OwnerId { get; set; }
     }
