@@ -45,7 +45,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
 
         }
@@ -61,7 +64,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
 
             if (status > 2 || status < 0)
@@ -124,7 +130,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
 
         }
@@ -132,27 +141,41 @@ namespace ApartShare.Controllers
         [HttpPost("createRequest")]
         public IActionResult CreateRequest(Guid HostId, Guid GuestId, [FromBody] CreateRequestDTO request)
         {
+            Guid userId;
+
             try
             {
                 var jwt = Request.Cookies["jwt"];
 
                 var token = _jwtService.Verify(jwt);
+
+                userId = Guid.Parse(token.Issuer);
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
 
-            var checkHost = _unitOfWork.Users.Get(HostId);
+            if(HostId == GuestId)
+            {
+                return BadRequest(new
+                {
+                    message = "Can not book your own apartment."
+                });
+            }
+
+            var checkHost = _unitOfWork.Users.Get(HostId);// userId
             var checkGuest = _unitOfWork.Users.Get(GuestId);
 
             if (checkGuest == null || checkHost == null)
             {
-                return BadRequest(
-                    new
-                    {
-                        message = "Guest or Host doesn't exist."
-                    });
+                return BadRequest(new
+                {
+                    message = "Guest or Host doesn't exist."
+                });
             }
 
             Request newRequest = new Request
@@ -163,7 +186,7 @@ namespace ApartShare.Controllers
                 DueDate = request.DueDate,
                 City = request.City,
                 GuestId = GuestId,
-                HostId = HostId,
+                HostId = HostId, // userId
                 CreationDate = DateTime.Now
             };
 

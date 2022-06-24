@@ -22,7 +22,7 @@ namespace ApartShare.Helpers
 
 
 
-        public static string Base64BytesToString(byte[]? imageBase64ByteArray)
+        public static string ToBase64BytesString(byte[]? imageBase64ByteArray)
         {
             var result = new StringBuilder("data:image/png;base64,");
 

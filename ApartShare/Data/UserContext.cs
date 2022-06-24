@@ -15,6 +15,12 @@ namespace ApartShare.Data
         {
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.Email).IsUnique();
+
+       //     modelBuilder
+       //.Entity<Request>()
+       //.HasOne(e => e.Owner)
+       //.WithOne(e => e.OwnedBlog)
+       //.OnDelete(DeleteBehavior.ClientCascade);
         }
 
     }

@@ -71,11 +71,9 @@ namespace ApartShare.Controllers
 
             User user = new User
             {
-                Id = Guid.NewGuid(),
                 Name = userRegistration.FullName,
                 Email = userRegistration.Email,
                 LoginName = userRegistration.LoginName,
-                //ImageBase64 = userRegistration.ImageBase64,
                 ImageBase64ByteArray = base64ToByteArray ,
                 Password = passwordHash
             };
@@ -89,7 +87,7 @@ namespace ApartShare.Controllers
             {
                 return BadRequest(new
                 {
-                    message = "Error during registration"
+                    message = "Error during registration, try different email."
                 });
             }
 
@@ -120,13 +118,13 @@ namespace ApartShare.Controllers
 
                 return Ok(new
                 {
-                    message = "User verified",
+                    message = "User verified.",
                 });
             }
 
             return NotFound(new
             {
-                message = "Invalid credentials"
+                message = "Invalid credentials."
             });
         }
 
@@ -155,7 +153,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
 
         }

@@ -2,6 +2,7 @@
 using ApartShare.Models;
 using ApartShare.Models.DTOs.ApartmentDtos;
 using ApartShare.Models.DTOs.RequestDtos;
+using ApartShare.Models.Extensions;
 using ApartShare.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
 
             if (dueDate == null)
@@ -102,22 +106,14 @@ namespace ApartShare.Controllers
 
                 var base64ToByteArray = Base64Converter.FromBase64StringSafe(apartment.ImageBase64);
 
-                Apartment newApartment = new Apartment
-                {
-                    Id = Guid.NewGuid(),
-                    Address = apartment.Address,
-                    City = apartment.City,
-                    BedsNumber = apartment.BedsNumber,
-                    DistanceToCenter = apartment.DistanceToCenter,
-                    ImageBase64ByteArray = base64ToByteArray,
-                    OwnerId = userId
-                };
+                var newApartment = apartment.FromDTO(userId);
 
                 try
                 {
                     //If apartment already exists update its fields.
                     var apart = await _unitOfWork.Apartments.FindByConditionAsync(x => x.OwnerId == userId);
                     var checkApartment = apart.SingleOrDefault();
+
                     if (checkApartment != null)
                     {
                         checkApartment.Address = apartment.Address;
@@ -148,7 +144,10 @@ namespace ApartShare.Controllers
             }
             catch
             {
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    message = "session is expired."
+                });
             }
         }
     }

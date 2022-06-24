@@ -11,7 +11,7 @@ namespace ApartShare.Models.Extensions
     {
         public static UserDTO ToDTO(this User user)
         {
-            var imageBase64String = Base64Converter.Base64BytesToString(user.ImageBase64ByteArray);
+            var imageBase64String = Base64Converter.ToBase64BytesString(user.ImageBase64ByteArray);
 
             return new UserDTO
             {
@@ -32,7 +32,7 @@ namespace ApartShare.Models.Extensions
             {
                 return null;
             }
-            var imageBase64String = Base64Converter.Base64BytesToString(apartment.ImageBase64ByteArray);
+            var imageBase64String = Base64Converter.ToBase64BytesString(apartment.ImageBase64ByteArray);
 
             return new UserApartmentDTO
             {
@@ -40,11 +40,30 @@ namespace ApartShare.Models.Extensions
                 Address = apartment.Address,
                 BedsNumber = apartment.BedsNumber,
                 DistanceToCenter = apartment.DistanceToCenter,
-                //ImageBase64 = apartment.ImageBase64,
                 ImageBase64 = imageBase64String,
                 OwnerId = apartment.OwnerId
             };
         }
+
+        public static Apartment? FromDTO(this ApartmentCreationDTO apartmentDTO, Guid ownerId)
+        {
+            if (apartmentDTO == null)
+            {
+                return null;
+            }
+            var imageBase64ByteArray = Base64Converter.FromBase64StringSafe(apartmentDTO.ImageBase64);
+
+            return new Apartment
+            {
+                City = apartmentDTO.City,
+                Address = apartmentDTO.Address,
+                BedsNumber = apartmentDTO.BedsNumber,
+                DistanceToCenter = apartmentDTO.DistanceToCenter,
+                ImageBase64ByteArray = imageBase64ByteArray,
+                OwnerId = ownerId
+            };
+        }
+
         public static RequestDTO? ToRequestDTO(this Request request)
         {
             if (request == null)

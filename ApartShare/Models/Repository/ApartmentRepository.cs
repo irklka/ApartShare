@@ -19,7 +19,7 @@ namespace ApartShare.Models.Repository
 
             foreach (var apartment in apartments)
             {
-                var imageBase64String = Base64Converter.Base64BytesToString(apartment.ImageBase64ByteArray);
+                var imageBase64String = Base64Converter.ToBase64BytesString(apartment.ImageBase64ByteArray);
 
                 var newApartment = new ApartmentDTO
                 {
