@@ -55,6 +55,8 @@ const SearchPageCart = (props) => {
 
     const bookResult = (data) => {
         console.log(data);
+        alert("Request has been sent");
+        setToggle(prev => !prev);
     }
 
     const { sendRequest: bookApartment } = useHttp();

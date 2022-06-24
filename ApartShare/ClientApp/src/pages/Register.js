@@ -48,7 +48,7 @@ const Register = () => {
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
         reset: resetPasswordInput
-    } = useInput(value => value.length > 6);
+    } = useInput(value => value.length > 7);
     // ********************************************* //
 
     // ********** File input type logic ********** //
@@ -189,7 +189,7 @@ const Register = () => {
                         value={enteredPassword}
                         placeholder='Create password'
                     />
-                    <p className={invalidPasswordClass}>Please enter at least 7 characters</p>
+                    <p className={invalidPasswordClass}>Please enter at least 8 characters</p>
                 </div>
                 <div className="input-div">
                     <input

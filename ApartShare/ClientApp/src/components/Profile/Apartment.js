@@ -65,7 +65,7 @@ const Apartment = (props) => {
         inputBlurHandler: distanceToCenterBlurHandler,
         inputFocuseHandler: distanceFocusHandler,
         reset: resetDistanceToCenterInput
-    } = useInput(value => Number.isFinite(value) && value > 0);
+    } = useInput(value => Number.isFinite(+value) && value > 0);
 
     const {
         value: enteredNumOfGuests,
@@ -76,7 +76,7 @@ const Apartment = (props) => {
         inputBlurHandler: numOfGuestsBlurHandler,
         inputFocuseHandler: bedsFocusHandler,
         reset: resetNumOfGuestsInput
-    } = useInput(value => Number.isInteger(value) && value > 0);
+    } = useInput(value => Number.isInteger(+value) && +value > 0);
 
     // const {
     //     value: enteredDescription,
@@ -133,7 +133,7 @@ const Apartment = (props) => {
         enteredAddressIsValid &&
         enteredDistanceToCenterIsValid &&
         enteredNumOfGuestsIsValid &&
-        fileInputHasError)) {
+        uploadedImageIsValid)) {
         formIsValid = true;
     }
 
@@ -146,6 +146,12 @@ const Apartment = (props) => {
         distanceToCenterBlurHandler();
         numOfGuestsBlurHandler();
         imageBlurHandler();
+
+        // console.log(enteredCityIsValid);
+        // console.log(enteredAddressIsValid);
+        // console.log(enteredDistanceToCenterIsValid);
+        // console.log(enteredNumOfGuestsIsValid);
+        // console.log(uploadedImageIsValid);
 
         if (!formIsValid) {
             console.log('invalid form');
@@ -173,8 +179,8 @@ const Apartment = (props) => {
                 city: enteredData.city,
                 address: enteredData.address,
                 bedsNumber: enteredData.bedsNumber,
-                imageBase64: baseImage,
-                distanceToCenter: enteredDistanceToCenter
+                imageBase64: enteredData.imageBase64,
+                distanceToCenter: enteredData.distanceToCenter
             }
         }, registerApartmentData);
     }
@@ -183,6 +189,7 @@ const Apartment = (props) => {
         setToggleAccordion(prev => !prev);
     }
 
+    console.log(distanceInputHasError);
 
     // ********** Alerting invalid input errors ********** //
     const hasAddedApartment = props.Apartment !== null ? true : false;
@@ -284,7 +291,12 @@ const Apartment = (props) => {
                     </form>
                 </div>
                 <div className={`${classes['user-img-container']}`}>
-                    <img className={classes['user-profile-img']} src={props.Apartment && props.Apartment.imageBase64 || apartmentAvatar} alt='House' />
+                    <img
+                        className={classes['user-profile-img']}
+                        src={props.Apartment && props.Apartment.imageBase64 || apartmentAvatar}
+                        alt='House'
+                        accept="image/*"
+                    />
                 </div>
             </div>
         </div>

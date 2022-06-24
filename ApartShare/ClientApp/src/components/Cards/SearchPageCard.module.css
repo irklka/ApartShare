@@ -92,6 +92,10 @@
   align-items: center;
 }
 
+.searchResult-card--bot span {
+  font-size: 1.4rem;
+}
+
 .searchResult-card--status-div {
   align-items: center;
   display: flex;
