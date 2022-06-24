@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import image from "../../images/people/user-2.jpg";
 import classes from "./GuestCard.module.css";
 

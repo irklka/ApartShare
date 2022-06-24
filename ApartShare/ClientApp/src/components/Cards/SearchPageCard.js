@@ -1,9 +1,31 @@
 import classes from './SearchPageCard.module.css';
 import useHttp from '../../hooks/use-http';
-
+import { useState } from 'react';
+import useInput from '../../hooks/use-input';
 
 
 const SearchPageCart = (props) => {
+    const [toggle, setToggle] = useState(false);
+
+    // ********** Using custom input hook ********** //
+    const {
+        value: enteredFromDate,
+        isValid: enteredFromDateIsValid,
+        hasError: fromDateInputHasError,
+        valueChangeHandler: fromDateChangeHandler,
+        inputBlurHandler: fromDateBlurHandler,
+        reset: resetFromDateInput
+    } = useInput(value => value.trim() != '');
+
+    const {
+        value: enteredDueDate,
+        isValid: enteredDueDateIsValid,
+        hasError: dueDateInputHasError,
+        valueChangeHandler: dueDateChangeHandler,
+        inputBlurHandler: dueDateBlurHandler,
+        reset: resetDueDateInput
+    } = useInput(value => value.trim() != '');
+    // ********************************************* //
 
     // ******* Apartment status logic ******* //
     let status;
@@ -38,21 +60,30 @@ const SearchPageCart = (props) => {
     const bookApartmentHandler = event => {
         console.log('Apartment booked!');
         console.log(props.city);
-        console.log(props.fromDate);
-        console.log(props.dueDate);
+        console.log(enteredFromDate);
+        console.log(enteredDueDate);
+
+        if (!enteredFromDateIsValid || !enteredDueDateIsValid) {
+            alert("Please enter Date range for booking");
+            return;
+        }
+
+        if (enteredDueDate < enteredFromDate) {
+            alert("Please enter valid date range");
+            return;
+        }
 
         bookApartment({
             url: url,
             method: 'POST',
             body: {
                 city: props.city,
-                fromDate: props.fromDate,
-                dueDate: props.dueDate,
+                fromDate: enteredFromDate,
+                dueDate: enteredDueDate,
             },
             credentials: "include",
         }, bookResult)
     }
-
 
     return <div className={`${classes['flex-column']} ${classes['result-card']}`}>
         <img className={classes['result-card--img']} src={props.img} alt="House image" />
@@ -74,8 +105,33 @@ const SearchPageCart = (props) => {
                 </div>
             </div>
             <div className={classes['result-card--bot']}>
-                <button onClick={bookApartmentHandler} disabled={status === 'available' ? false : true} className={`btn btn--full ${classes['btn--book-now']} ${buttonAvailabilityClass}`}>Book now</button>
+                <button
+                    onClick={() => setToggle(prev => {
+                        return !prev;
+                    })}
+                    disabled={status === 'available' ? false : true}
+                    className={`btn btn--full ${classes['btn--book-now']} ${buttonAvailabilityClass}`}>
+                    Book now
+                </button>
             </div>
+            {toggle && <div className={classes['searchResul-toggle--div']}>
+                <div className={classes['searchResult-card--input-div']}>
+                    <div>
+                        <label>From date</label>
+                        <input onChange={fromDateChangeHandler} value={enteredFromDate} type="date" />
+                    </div>
+                    <div>
+                        <label>Due date</label>
+                        <input onChange={dueDateChangeHandler} value={enteredDueDate} type="date" />
+                    </div>
+                </div>
+                <div className={classes['result-card--bot']}>
+                    <button
+                        onClick={bookApartmentHandler}
+                        className={`btn btn--full ${classes['btn--book-now']} ${buttonAvailabilityClass}`}
+                    >Send request</button>
+                </div>
+            </div>}
         </div>
     </div>
 }
