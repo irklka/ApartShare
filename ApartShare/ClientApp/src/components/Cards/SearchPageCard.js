@@ -7,6 +7,10 @@ import useInput from '../../hooks/use-input';
 const SearchPageCart = (props) => {
     const [toggle, setToggle] = useState(false);
 
+    const usersCard = props.hostId === props.guestId;
+    const usersApartmentClass = !usersCard ? classes['users-apartment-note'] : `${classes['users-apartment-note']} visible`;
+
+
     // ********** Using custom input hook ********** //
     const {
         value: enteredFromDate,
@@ -41,7 +45,7 @@ const SearchPageCart = (props) => {
             break;
     }
 
-    const buttonAvailable = status === "available" ? true : false;
+    const buttonAvailable = status === "available" && !usersCard ? true : false;
 
     const buttonAvailabilityClass = buttonAvailable ? '' : classes["btn--unavailable"];
     // *********************************** //
@@ -89,13 +93,14 @@ const SearchPageCart = (props) => {
         <img className={classes['result-card--img']} src={props.img} alt="House image" />
         <div className={`${classes['flex-column']} ${classes['result-card--info']}`}>
             <div className={classes['location-info']}>
-                <p>{`${props.city}, ${props.address}`}</p>
+                <p>{`${props.city}, ${props.address}`} <span className={usersApartmentClass}>User's apartment</span></p>
                 <div>
                     <span>{`${props.distance} to center`}</span>
                     <span>{`${props.beds} beds`}</span>
                 </div>
             </div>
             {/* <p className={classes['result-card--desc']}>{props.description}</p> */}
+
             <div className={classes['searchResult-card--bot']}>
                 <p className={classes.date}>{`${props.fromDate} - ${props.dueDate}`}</p>
                 <div className={`${classes['searchResult-card--status-div']}
@@ -109,7 +114,7 @@ const SearchPageCart = (props) => {
                     onClick={() => setToggle(prev => {
                         return !prev;
                     })}
-                    disabled={status === 'available' ? false : true}
+                    disabled={status === 'available' && !usersCard ? false : true}
                     className={`btn btn--full ${classes['btn--book-now']} ${buttonAvailabilityClass}`}>
                     Book now
                 </button>

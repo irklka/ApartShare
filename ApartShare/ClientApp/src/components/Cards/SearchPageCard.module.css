@@ -14,9 +14,22 @@
   gap: 2.4rem;
 }
 
+.location-info {
+  position: relative;
+}
+
 .location-info p {
   font-size: 1.8rem;
   font-weight: 600;
+}
+
+.users-apartment-note {
+  font-size: 1.4rem;
+  color: #3c228b;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  flex-grow: 0;
+  visibility: hidden;
 }
 
 .location-info div {

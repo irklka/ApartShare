@@ -35,7 +35,7 @@ const Login = () => {
     const loginData = data => {
         console.log(data);
         login(true);
-        navigate('/search', { replace: true })
+        navigate('/search', { replace: true });
     }
 
     const { isLoading, sendRequest } = useHttp();

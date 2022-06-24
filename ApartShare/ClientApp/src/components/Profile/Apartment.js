@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classes from './Apartment.module.css';
 import useInput from '../../hooks/use-input';
 import useHttp from '../../hooks/use-http';
@@ -19,6 +20,8 @@ const arrowUp = <svg xmlns="http://www.w3.org/2000/svg" className='icon' fill="n
 const Apartment = (props) => {
     // console.log(props.Apartment);
 
+    const navigate = useNavigate();
+
     const [toggleAccordion, setToggleAccordion] = useState(false);
     const [baseImage, setBaseImage] = useState("");
     const [fileInputIsTouched, setFileInputIsTouched] = useState(false);
@@ -29,56 +32,66 @@ const Apartment = (props) => {
     const displayContentClass = toggleAccordion ? 'display' : '';
     const itemBorderClass = toggleAccordion ? 'item-border' : '';
 
+
     // ********** Using custom input hook ********** //
     const {
         value: enteredCity,
         isValid: enteredCityIsValid,
+        isFocused: cityInputIsFocused,
         hasError: cityInputHasError,
         valueChangeHandler: cityChangeHandler,
         inputBlurHandler: cityBlurHandler,
-        reset: resetCityInput
+        inputFocuseHandler: cityFocusHandler,
+        reset: resetCityInput,
     } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredAddress,
         isValid: enteredAddressIsValid,
+        isFocused: addressInputIsFocused,
         hasError: addressInputHasError,
         valueChangeHandler: addressChangeHandler,
         inputBlurHandler: addressBlurHandler,
+        inputFocuseHandler: addressFocusHandler,
         reset: resetAddressInput
     } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredDistanceToCenter,
         isValid: enteredDistanceToCenterIsValid,
-        hasError: distanceToCenterInputHasError,
+        isFocused: distanceInputIsFocused,
+        hasError: distanceInputHasError,
         valueChangeHandler: distanceToCenterChangeHandler,
         inputBlurHandler: distanceToCenterBlurHandler,
+        inputFocuseHandler: distanceFocusHandler,
         reset: resetDistanceToCenterInput
-    } = useInput(value => Number.isFinite(value));
+    } = useInput(value => Number.isFinite(value) && value > 0);
 
     const {
         value: enteredNumOfGuests,
         isValid: enteredNumOfGuestsIsValid,
-        hasError: numOfGuestsInputHasError,
+        isFocused: bedsInputIsFocused,
+        hasError: bedsInputHasError,
         valueChangeHandler: numOfGuestsChangeHandler,
         inputBlurHandler: numOfGuestsBlurHandler,
+        inputFocuseHandler: bedsFocusHandler,
         reset: resetNumOfGuestsInput
-    } = useInput(value => Number.isInteger(value));
+    } = useInput(value => Number.isInteger(value) && value > 0);
 
-    const {
-        value: enteredDescription,
-        isValid: enteredDescriptionIsValid,
-        hasError: descriptionInbutHasError,
-        valueChangeHandler: descriptionChangeHandler,
-        inputBlurHandler: descriptionBlurHandler,
-        reset: resetDescriptionInput
-    } = useInput(value => value.trim() !== '');
+    // const {
+    //     value: enteredDescription,
+    //     isValid: enteredDescriptionIsValid,
+    //     hasError: descriptionInbutHasError,
+    //     valueChangeHandler: descriptionChangeHandler,
+    //     inputBlurHandler: descriptionBlurHandler,
+    //     reset: resetDescriptionInput
+    // } = useInput(value => value.trim() !== '');
     // ********************************************* //
 
     // ********** File input type logic ********** //
     const uploadImage = async (event) => {
         const file = event.target.files[0];
+        console.log(`called from upload method - ${event.target}`);
         const base64 = await convertToBase64(file);
         setBaseImage(base64);
     }
@@ -108,21 +121,45 @@ const Apartment = (props) => {
 
     const registerApartmentData = data => {
         console.log(data);
+        navigate('/profile', { replace: true })
     }
 
     const { sendRequest: addApartment } = useHttp();
     // ********************************************* //
 
+    let formIsValid = false;
+
+    if (props.Apartment !== null || (enteredCityIsValid &&
+        enteredAddressIsValid &&
+        enteredDistanceToCenterIsValid &&
+        enteredNumOfGuestsIsValid &&
+        fileInputHasError)) {
+        formIsValid = true;
+    }
 
     const formSubmitHandler = event => {
         event.preventDefault();
 
+        // Setting isTouched states to true
+        cityBlurHandler();
+        addressBlurHandler();
+        distanceToCenterBlurHandler();
+        numOfGuestsBlurHandler();
+        imageBlurHandler();
+
+        if (!formIsValid) {
+            console.log('invalid form');
+            return;
+        }
+
+        console.log(baseImage);
+
         const enteredData = {
-            city: enteredCity,
-            address: enteredAddress,
-            bedsNumber: +enteredNumOfGuests,
-            imageBase64: baseImage,
-            distanceToCenter: +enteredDistanceToCenter
+            city: enteredCity !== '' ? enteredCity : props.Apartment.city,
+            address: enteredAddress !== '' ? enteredAddress : props.Apartment.address,
+            bedsNumber: +enteredNumOfGuests !== 0 ? +enteredNumOfGuests : props.Apartment.bedsNumber,
+            distanceToCenter: +enteredDistanceToCenter !== 0 ? +enteredDistanceToCenter : props.Apartment.distanceToCenter,
+            imageBase64: baseImage !== '' ? baseImage : props.Apartment.imageBase64,
         }
 
         console.log(enteredData);
@@ -147,6 +184,21 @@ const Apartment = (props) => {
     }
 
 
+    // ********** Alerting invalid input errors ********** //
+    const hasAddedApartment = props.Apartment !== null ? true : false;
+
+    const invalidCityClass = cityInputHasError && !hasAddedApartment ?
+        'invalid-inputs visible' : 'invalid-inputs';
+    const invalidAddressClass = addressInputHasError && !hasAddedApartment ?
+        'invalid-inputs visible' : 'invalid-inputs';
+    const invalidDistanceClass = distanceInputHasError && !hasAddedApartment ?
+        'invalid-inputs visible' : 'invalid-inputs';
+    const invalidBedsClass = bedsInputHasError && !hasAddedApartment ?
+        'invalid-inputs visible' : 'invalid-inputs';
+    const invalidFileClass = fileInputHasError && !hasAddedApartment ?
+        'invalid-inputs visible' : 'invalid-inputs';
+    // ********************************************* //
+
     return <div className='container'>
         <div className={`accordion ${classes['apartment-form-container']}`}>
             <div onClick={addApartmentClickHandler} className={`item ${itemBorderClass}`}>
@@ -159,46 +211,61 @@ const Apartment = (props) => {
             ${classes['profile-form--apartment']}`}>
                     <form>
                         <div className="input-div">
+                            <label>City</label>
                             <input
                                 onChange={cityChangeHandler}
                                 onBlur={cityBlurHandler}
+                                onFocus={cityFocusHandler}
                                 type='text'
-                                value={enteredCity}
-                                placeholder={`${props.Apartment && "City: " + props.Apartment.city || 'city'}`}
+                                value={!hasAddedApartment || cityInputIsFocused || enteredCity.length > 0
+                                    ? enteredCity : props.Apartment.city}
+                                placeholder={!hasAddedApartment ? "City" : ""}
                             />
-                            {/* <p className={invalidFnameClass}>Please do not leave input blank</p> */}
+                            <p className={invalidCityClass}>Please do not leave input blank</p>
                         </div>
                         <div className="input-div">
+                            <label>Address</label>
                             <input
                                 onChange={addressChangeHandler}
                                 onBlur={addressBlurHandler}
+                                onFocus={addressFocusHandler}
                                 type='text'
-                                value={enteredAddress}
-                                placeholder={`${props.Apartment && "Address: " + props.Apartment.address || 'address'}`}
+                                value={!hasAddedApartment || addressInputIsFocused || enteredAddress.length > 0
+                                    ? enteredAddress : props.Apartment.address}
+                                placeholder={!hasAddedApartment ? "Address" : ""}
                             />
-                            {/* <p className={invalidLnameClass}>Please do not leave input blank</p> */}
+                            <p className={invalidAddressClass}>Please do not leave input blank</p>
+
                         </div>
                         <div className="input-div">
+                            <label>Distance to center in meters</label>
                             <input
                                 onChange={distanceToCenterChangeHandler}
                                 onBlur={distanceToCenterBlurHandler}
+                                onFocus={distanceFocusHandler}
                                 type='number'
-                                value={enteredDistanceToCenter}
-                                placeholder={`${props.Apartment && "Distance to center: " + props.Apartment.distanceToCenter + " meters" || 'Distance to center'}`}
+                                min={1}
+                                value={!hasAddedApartment || distanceInputIsFocused || enteredDistanceToCenter > 0
+                                    ? enteredDistanceToCenter : props.Apartment.distanceToCenter}
+                                placeholder={!hasAddedApartment ? "Distance to center" : ""}
                             />
-                            {/* <p className={invalidEmailClass}>Please enter valid email</p> */}
+                            <p className={invalidDistanceClass}>Distance should be at least 1</p>
                         </div>
                         <div className="input-div">
+                            <label>Number of guests</label>
                             <input
                                 onChange={numOfGuestsChangeHandler}
                                 onBlur={numOfGuestsBlurHandler}
+                                onFocus={bedsFocusHandler}
                                 type='number'
-                                value={enteredNumOfGuests}
-                                placeholder={`${props.Apartment && "Max number of guests: " + props.Apartment.bedsNumber || 'Max number of guests'}`}
+                                min={1}
+                                value={!hasAddedApartment || bedsInputIsFocused || enteredNumOfGuests > 0
+                                    ? enteredNumOfGuests : props.Apartment.bedsNumber}
+                                placeholder={!hasAddedApartment ? "Max number of guests" : ""}
                             />
-                            {/* <p className={invalidPasswordClass}>Please enter at least 7 characters</p> */}
+                            <p className={invalidBedsClass}>Number of guests be at least 1</p>
                         </div>
-                        <div className="input-div">
+                        {/* <div className="input-div">
                             <textarea rows={3}
                                 onChange={descriptionChangeHandler}
                                 onBlur={descriptionBlurHandler}
@@ -206,12 +273,14 @@ const Apartment = (props) => {
                                 value={enteredDescription}
                                 placeholder={`${props.Apartment && props.Apartment.description || 'Description'}`}
                             />
-                            {/* <p className={invalidPasswordClass}>Please enter at least 7 characters</p> */}
-                        </div>
+                            <p className={invalidPasswordClass}>Please enter at least 7 characters</p>
+                        </div> */}
                         <div className="input-div">
+                            <label>Apartment photo</label>
                             <input type="file" onChange={uploadImage} onBlur={imageBlurHandler} />
-                            {/* <p className={invalidFileClass}>Please upload valid image</p> */}
+                            <p className={invalidFileClass}>Please upload valid image</p>
                         </div>
+                        <button onClick={formSubmitHandler} className={`btn btn--full btn--save-all-changes`}>Save all changes</button>
                     </form>
                 </div>
                 <div className={`${classes['user-img-container']}`}>
@@ -219,8 +288,6 @@ const Apartment = (props) => {
                 </div>
             </div>
         </div>
-        <button onClick={formSubmitHandler} className={`btn btn--full btn--save-all-changes`}>Save all changes</button>
-
     </div>
 }
 

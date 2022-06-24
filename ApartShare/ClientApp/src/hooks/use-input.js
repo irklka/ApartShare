@@ -2,36 +2,40 @@ import { useState } from "react";
 
 const useInput = (validateValue) => {
     const [enteredValue, setEnteredValue] = useState('');
-    const [isTouched, setIsTouched] = useState(false);
+    const [isBlured, setIsBlured] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
 
     const valueIsValid = validateValue(enteredValue);
-    const hasError = !valueIsValid && isTouched;
+    const hasError = !valueIsValid && isBlured;
 
     const valueChangeHandler = (event) => {
         setEnteredValue(event.target.value)
     }
 
+    const inputFocuseHandler = (event) => {
+        console.log('Focused');
+        setIsFocused(true);
+    }
+
     const inputBlurHandler = (event) => {
-        setIsTouched(true);
+        setIsFocused(false);
+        setIsBlured(true);
     }
 
     const reset = () => {
         setEnteredValue('');
-        setIsTouched(false);
-    }
-
-    const setInputValue = (value) => {
-        setEnteredValue(value);
+        setIsBlured(false);
     }
 
     return {
         value: enteredValue,
         isValid: valueIsValid,
         hasError,
+        isFocused,
         valueChangeHandler,
         inputBlurHandler,
-        setInputValue,
-        reset
+        inputFocuseHandler,
+        reset,
     }
 }
 
