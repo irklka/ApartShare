@@ -6,6 +6,8 @@ using ApartShare.Models.Extensions;
 using ApartShare.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
+#pragma warning disable CS8604 // Possible null reference argument.
+
 namespace ApartShare.Controllers
 {
     [Route("api/[controller]")]

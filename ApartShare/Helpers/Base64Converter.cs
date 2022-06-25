@@ -1,5 +1,7 @@
 ﻿using System.Text;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
 namespace ApartShare.Helpers
 {
     public static class Base64Converter
@@ -14,7 +16,7 @@ namespace ApartShare.Helpers
             }
             catch
             {
-                return default;
+                return default!;
             }
 
             return Convert.FromBase64String(base64WithoutPrefix);
@@ -28,7 +30,7 @@ namespace ApartShare.Helpers
 
             if (imageBase64ByteArray == null)
             {
-                return null;
+                return null!;
             }
             else
             {

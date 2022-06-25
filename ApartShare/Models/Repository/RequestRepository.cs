@@ -35,7 +35,7 @@ namespace ApartShare.Models.Repository
                                              .Where(x => x.OwnerId == request.HostId)
                                              .FirstOrDefaultAsync();
 
-                var imageBase64String = Base64Converter.ToBase64BytesString(apartmentForRequest.ImageBase64ByteArray);
+                var imageBase64String = Base64Converter.ToBase64BytesString(apartmentForRequest!.ImageBase64ByteArray);
 
                 newRequest.Address = apartmentForRequest.Address;
                 newRequest.BedsNumber = apartmentForRequest.BedsNumber;

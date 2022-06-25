@@ -4,7 +4,8 @@ using ApartShare.Models.Extensions;
 using ApartShare.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ApartShare.Helpers;
-using System.Diagnostics;
+
+#pragma warning disable CS8604 // Possible null reference argument.
 
 namespace ApartShare.Controllers
 {
