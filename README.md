@@ -6,9 +6,18 @@ used to find a host for a traveler, and to connect them.
 Hosts could be travelers and vice versa. The main value of the app is sharing and caring, 
 so no payments will be involved.
 
-Application has two parts .Net6 web Api in the backend and React.js in Frontend
+<p>Application has two parts</p>
+
+<ul>
+  <li>.Net6 web Api - backend</li>
+  <li> React.js - Frontend</li>
+</ul>
 
 
-
-Frontend was done by https://github.com/Vagabond169 Vagabond
+Frontend was done by <a href="https://github.com/Vagabond169"> Vagabond</a> <br/>
+<h3>Vagabond</h3> 
+<br/>
+<img src="https://avatars.githubusercontent.com/u/74795182?v=4" width="150px"/>
+<br/>
+Thank you Vagabond.<br/><br/>
 I worked on backend.
