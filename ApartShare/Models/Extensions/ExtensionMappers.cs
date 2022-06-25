@@ -55,7 +55,7 @@ namespace ApartShare.Models.Extensions
                 Status = request.Status,
                 City = request.City,
                 FromDate = request.FromDate,
-                ToDate = request.DueDate,
+                DueDate = request.DueDate,
                 GuestId = request.GuestId,
                 HostId = request.HostId
             };

@@ -10,7 +10,7 @@ namespace ApartShare.Models.DTOs.RequestDTOs
         public string Name { get; set; }
         public string? ImageBase64 { get; set; }
         public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime DueDate { get; set; }
         public Guid GuestId { get; set; }
         public Guid HostId { get; set; }
     }

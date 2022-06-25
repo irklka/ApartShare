@@ -71,15 +71,15 @@ namespace ApartShare.Controllers
             {
                 return BadRequest(new
                 {
-                    message = "Invalid status"
+                    message = "Invalid status."
                 });
             }
 
             var request = _unitOfWork.Requests.Get(id);
 
-            if (request == null)
             {
-                return NotFound(new
+            if (request == null)
+                return BadRequest(new
                 {
                     message = $"Request with id:{id} was not found."
                 });

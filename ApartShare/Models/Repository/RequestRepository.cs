@@ -26,7 +26,7 @@ namespace ApartShare.Models.Repository
                     Status = request.Status,
                     City = request.City,
                     FromDate = request.FromDate,
-                    ToDate = request.DueDate,
+                    DueDate = request.DueDate,
                     GuestId = request.GuestId,
                     HostId = request.HostId
                 };
@@ -63,7 +63,7 @@ namespace ApartShare.Models.Repository
                     Status = guestRequest.Status,
                     City = guestRequest.City,
                     FromDate = guestRequest.FromDate,
-                    ToDate = guestRequest.DueDate,
+                    DueDate = guestRequest.DueDate,
                     GuestId = guestRequest.GuestId,
                     HostId = guestRequest.HostId
                 };
