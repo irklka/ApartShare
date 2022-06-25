@@ -10,7 +10,7 @@ namespace ApartShare.Models.DTOs.RequestDtos
         public RequestStatus Status { get; set; }
         public string City { get; set; }
         public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime DueDate { get; set; }
         public Guid GuestId { get; set; }
         public Guid HostId { get; set; }
     }
