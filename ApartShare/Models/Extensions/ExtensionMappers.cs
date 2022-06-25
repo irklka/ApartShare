@@ -21,7 +21,6 @@ namespace ApartShare.Models.Extensions
                 LoginName = user.LoginName,
                 Password = user.Password,
                 MyApartment = user.MyApartment!.ToDTO(),
-                //ImageBase64 = user.ImageBase64
                 ImageBase64 = imageBase64String,
             };
         }
@@ -45,25 +44,6 @@ namespace ApartShare.Models.Extensions
             };
         }
 
-        public static Apartment? FromDTO(this ApartmentCreationDTO apartmentDTO, Guid ownerId)
-        {
-            if (apartmentDTO == null)
-            {
-                return null;
-            }
-            var imageBase64ByteArray = Base64Converter.FromBase64StringSafe(apartmentDTO.ImageBase64);
-
-            return new Apartment
-            {
-                City = apartmentDTO.City,
-                Address = apartmentDTO.Address,
-                BedsNumber = apartmentDTO.BedsNumber,
-                DistanceToCenter = apartmentDTO.DistanceToCenter,
-                ImageBase64ByteArray = imageBase64ByteArray,
-                OwnerId = ownerId
-            };
-        }
-
         public static RequestDTO? ToRequestDTO(this Request request)
         {
             if (request == null)
@@ -77,6 +57,54 @@ namespace ApartShare.Models.Extensions
                 FromDate = request.FromDate,
                 ToDate = request.DueDate,
                 GuestId = request.GuestId,
+                HostId = request.HostId
+            };
+        }
+
+        public static Apartment? FromDTO(this ApartmentCreationDTO apartmentDTO, Guid ownerId)
+        {
+            var imageBase64ByteArray = Base64Converter.FromBase64StringSafe(apartmentDTO.ImageBase64);
+
+            return new Apartment
+            {
+                City = apartmentDTO.City,
+                Address = apartmentDTO.Address,
+                BedsNumber = apartmentDTO.BedsNumber,
+                DistanceToCenter = apartmentDTO.DistanceToCenter,
+                ImageBase64ByteArray = imageBase64ByteArray,
+                OwnerId = ownerId
+            };
+        }
+
+        public static User? FromDTO(this UserRegistrationDTO userDTO)
+        {
+            if (userDTO == null)
+            {
+                return null;
+            }
+            var imageBase64ByteArray = Base64Converter.FromBase64StringSafe(userDTO.ImageBase64);
+            var passwordHash = PasswordService.ComputeStringToSha256Hash(userDTO.Password);
+
+            return new User
+            {
+                Email = userDTO.Email,
+                Name = userDTO.FullName,
+                LoginName = userDTO.LoginName,
+                Password = passwordHash,
+                ImageBase64ByteArray = imageBase64ByteArray
+            };
+        }
+
+        public static Request FromRequestDTO(this CreateRequestDTO request, Guid guestId)
+        {
+            return new Request
+            {
+                Id = Guid.NewGuid(),
+                Status = 0,
+                FromDate = request.FromDate,
+                DueDate = request.DueDate,
+                City = request.City,
+                GuestId = guestId,
                 HostId = request.HostId
             };
         }

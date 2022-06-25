@@ -134,7 +134,7 @@ namespace ApartShare.Controllers
         [HttpPost("createRequest")]
         public IActionResult CreateRequest([FromBody] CreateRequestDTO request)
         {
-            Guid GuestId;
+            Guid guestId;
 
             try
             {
@@ -142,7 +142,7 @@ namespace ApartShare.Controllers
 
                 var token = _jwtService.Verify(jwt);
 
-                GuestId = Guid.Parse(token.Issuer);
+                guestId = Guid.Parse(token.Issuer);
             }
             catch
             {
@@ -152,7 +152,7 @@ namespace ApartShare.Controllers
                 });
             }
 
-            if(request.HostId == GuestId)
+            if(request.HostId == guestId)
             {
                 return BadRequest(new
                 {
@@ -161,7 +161,7 @@ namespace ApartShare.Controllers
             }
 
             var checkHost = _unitOfWork.Users.Get(request.HostId);
-            var checkGuest = _unitOfWork.Users.Get(GuestId);
+            var checkGuest = _unitOfWork.Users.Get(guestId);
 
             if (checkGuest == null || checkHost == null)
             {
@@ -171,17 +171,8 @@ namespace ApartShare.Controllers
                 });
             }
 
-            Request newRequest = new Request
-            {
-                Id = Guid.NewGuid(),
-                Status = 0,
-                FromDate = request.FromDate,
-                DueDate = request.DueDate,
-                City = request.City,
-                GuestId = GuestId,
-                HostId = request.HostId,
-                CreationDate = DateTime.Now
-            };
+            var newRequest = request.FromRequestDTO(guestId);
+            newRequest.CreationDate = DateTime.Now;
 
             try
             {
