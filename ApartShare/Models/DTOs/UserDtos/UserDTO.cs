@@ -7,6 +7,7 @@ namespace ApartShare.Models.DTOs.UserDtos
     {
         public Guid Id { get; set; }
         public string Email { get; set; }
+
         [JsonIgnore]
         public string Password { get; set; }
         public string LoginName { get; set; }

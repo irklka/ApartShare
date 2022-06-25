@@ -5,6 +5,6 @@ namespace ApartShare.Models.Interfaces
 {
     public interface IApartmentRepository : IGenericRepository<Apartment>
     {
-        public Task<IEnumerable<ApartmentDTO>> GetAllWithStatusAndDatesAsync();
+        Task<IEnumerable<ApartmentDTO>> GetAllWithStatusAndDatesAsync();
     }
 }
