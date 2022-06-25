@@ -119,14 +119,10 @@ namespace ApartShare.Controllers
 
                 Guid userId = Guid.Parse(token.Issuer);
 
-                var request = await _unitOfWork.Requests
-                .FindByConditionAsync(x => x.GuestId == userId);
+                var myRequests = await _unitOfWork.Requests
+                .GetAllRequestsWithApartmentDetails(userId);
 
-                var response = request
-                .Select(x => x.ToRequestDTO())
-                .ToList();
-
-                return Ok(response);
+                return Ok(myRequests);
             }
             catch
             {
@@ -141,7 +137,7 @@ namespace ApartShare.Controllers
         [HttpPost("createRequest")]
         public IActionResult CreateRequest(Guid HostId, Guid GuestId, [FromBody] CreateRequestDTO request)
         {
-            Guid userId;
+            Guid userId;//guest
 
             try
             {
