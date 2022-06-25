@@ -47,5 +47,38 @@ namespace ApartShare.Models.Repository
             return result;
         }
 
+        public async Task<IEnumerable<MyGuestDTO>> GetAllGuestsWithDetails(Guid userId)
+        {
+            var result = new List<MyGuestDTO>();
+
+            var myGuestRequests = await Context.Requests
+                .Where(x => x.HostId == userId).ToListAsync();
+
+            foreach (var guestRequest in myGuestRequests)
+            {
+
+                var newGuest = new MyGuestDTO
+                {
+                    Id = guestRequest.Id,
+                    Status = guestRequest.Status,
+                    City = guestRequest.City,
+                    FromDate = guestRequest.FromDate,
+                    ToDate = guestRequest.DueDate,
+                    GuestId = guestRequest.GuestId,
+                    HostId = guestRequest.HostId
+                };
+
+                var guestForRequest = await Context.Users.FindAsync(guestRequest.GuestId);
+
+                var imageBase64String = Base64Converter.ToBase64BytesString(guestForRequest!.ImageBase64ByteArray);
+
+                newGuest.ImageBase64 = imageBase64String;
+                newGuest.Name = guestForRequest.Name;
+
+                result.Add(newGuest);
+            }
+            return result;
+        }
+
     }
 }

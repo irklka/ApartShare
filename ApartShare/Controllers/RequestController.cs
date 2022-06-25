@@ -36,14 +36,9 @@ namespace ApartShare.Controllers
 
                 Guid userId = Guid.Parse(token.Issuer);
 
-                var request = await _unitOfWork.Requests
-                    .FindByConditionAsync(x => x.HostId == userId);
+                var guestRequestsWithDetails = await _unitOfWork.Requests.GetAllGuestsWithDetails(userId);
 
-                var response = request
-                    .Select(x => x.ToRequestDTO())
-                    .ToList();
-
-                return Ok(response);
+                return Ok(guestRequestsWithDetails);
             }
             catch
             {
@@ -120,11 +115,11 @@ namespace ApartShare.Controllers
                 var token = _jwtService.Verify(jwt);
 
                 Guid userId = Guid.Parse(token.Issuer);
+                var myRequestsWithDetails = await _unitOfWork.Requests
 
-                var myRequests = await _unitOfWork.Requests
                 .GetAllRequestsWithApartmentDetails(userId);
 
-                return Ok(myRequests);
+                return Ok(myRequestsWithDetails);
             }
             catch
             {

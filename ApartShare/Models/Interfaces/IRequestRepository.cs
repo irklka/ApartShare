@@ -6,5 +6,6 @@ namespace ApartShare.Models.Interfaces
     public interface IRequestRepository : IGenericRepository<Request>
     {
         Task<IEnumerable<MyRequestDTO>> GetAllRequestsWithApartmentDetails(Guid userId);
+        Task<IEnumerable<MyGuestDTO>> GetAllGuestsWithDetails(Guid userId);
     }
 }

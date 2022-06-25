@@ -1,14 +1,14 @@
 ﻿using ApartShare.Models.Enums;
-using System.Text.Json.Serialization;
-#pragma warning disable S101 
 
-namespace ApartShare.Models.DTOs.RequestDtos
+namespace ApartShare.Models.DTOs.RequestDTOs
 {
-    public class RequestDTO
+    public class MyGuestDTO
     {
         public Guid Id { get; set; }
         public RequestStatus Status { get; set; }
         public string City { get; set; }
+        public string Name { get; set; }
+        public string? ImageBase64 { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public Guid GuestId { get; set; }
