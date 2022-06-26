@@ -9,7 +9,7 @@ so no payments will be involved.
 <p>Application has two parts</p>
 
 <ul>
-  <li>.Net6 web Api - backend</li>
+  <li>.Net6 Core web Api - backend</li>
   <li> React.js -frontend</li>
 </ul>
 
