@@ -2,10 +2,10 @@
 
 .guest-card {
   display: flex;
-  gap: 4.8rem;
   border: 1px solid #5f3dc4;
   height: 20rem;
   margin-bottom: 2.4rem;
+  justify-content: space-between;
 }
 
 .guest-card--img {
@@ -16,16 +16,13 @@
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3.5rem;
 }
 
 .guest-card--desc p {
+  color: #5f3dc4;
   font-size: 2rem;
   font-weight: 600;
-}
-
-.guest-card--desc blockquote {
-  font-size: 1.8rem;
 }
 
 .guest-card--date {
@@ -42,9 +39,10 @@
 }
 
 .guest-card--last-part {
-  padding: 2rem 2.4rem 0 0;
+  padding: 0 2.4rem 0 0;
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
   text-align: right;
+  justify-content: center;
 }

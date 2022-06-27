@@ -2,6 +2,7 @@ import classes from './SearchPageCard.module.css';
 import useHttp from '../../hooks/use-http';
 import { useState } from 'react';
 import useInput from '../../hooks/use-input';
+import format from 'date-fns/format';
 
 
 const SearchPageCart = (props) => {
@@ -51,7 +52,7 @@ const SearchPageCart = (props) => {
     // *********************************** //
 
     // ********** Using custom http hook for booking apartment ********** //
-    const url = `https://localhost:7209/api/Request/createRequest?HostId=${props.hostId}&GuestId=${props.guestId}`;
+    const url = `https://localhost:7209/api/Request/createRequest`;
 
     const bookResult = (data) => {
         console.log(data);
@@ -86,10 +87,26 @@ const SearchPageCart = (props) => {
                 city: props.city,
                 fromDate: enteredFromDate,
                 dueDate: enteredDueDate,
+                hostId: props.hostId,
             },
             credentials: "include",
         }, bookResult)
     }
+
+    // ********** Showing date logic ********** //
+
+    let availabilityStatus;
+
+    if (props.fromDate === null) {
+        availabilityStatus = "Available for booking"
+    } else {
+        const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
+        const toDate = format(Date.parse(props.toDate), 'MM/dd/yyyy');
+
+        availabilityStatus = `${fromDate} - ${toDate}`;
+    }
+
+    // ********************************************* //
 
     return <div className={`${classes['flex-column']} ${classes['result-card']}`}>
         <img className={classes['result-card--img']} src={props.img} alt="House image" />
@@ -104,7 +121,7 @@ const SearchPageCart = (props) => {
             {/* <p className={classes['result-card--desc']}>{props.description}</p> */}
 
             <div className={classes['searchResult-card--bot']}>
-                <p className={classes.date}>{`${props.fromDate} - ${props.dueDate}`}</p>
+                <p className={classes.date}>{availabilityStatus}</p>
                 <div className={`${classes['searchResult-card--status-div']}
                 ${classes[`searchResult-card--status-${status}`]}`}>
                     <ion-icon name="radio-button-on-outline"></ion-icon>

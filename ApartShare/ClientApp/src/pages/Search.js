@@ -93,7 +93,7 @@ const Search = (props) => {
                         distance={apartment.distanceToCenter}
                         beds={apartment.bedsNumber}
                         fromDate={apartment.fromDate}
-                        dueDate={apartment.dueDate}
+                        toDate={apartment.dueDate}
                         status={apartment.status}
                         guestId={props.userId}
                     />

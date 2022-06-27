@@ -1,22 +1,43 @@
 import image from '../../images/houses/house-1.jpg';
 import classes from './BookingCard.module.css';
+import format from 'date-fns/format';
 
-const status = 'accepted';
 
-const BookingsCard = () => {
+const BookingsCard = (props) => {
+    // ******* Apartment status logic ******* //
+    let status;
+
+    switch (props.status) {
+        case 0:
+            status = "pending";
+            break;
+        case 1:
+            status = "accepted";
+            break;
+        case 2:
+            status = "declined"
+            break;
+        default:
+            break;
+    }
+    // *********************************** //
+
+    const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
+    const toDate = format(Date.parse(props.toDate), 'MM/dd/yyyy');
+
+
     return <div className={`${classes['flex-column']} ${classes['booking-card']}`}>
-        <img className={classes['booking-card--img']} src={image} alt="House image" />
+        <img className={classes['booking-card--img']} src={props.img} alt="House image" />
         <div className={`${classes['flex-column']} ${classes['booking-card--info']}`}>
             <div className={classes['location-info']}>
-                <p>Address, location</p>
+                <p>{props.address}, {props.city}</p>
                 <div>
-                    <span>500m to center</span>
-                    <span>2 beds</span>
+                    <span>{props.distance}m to center</span>
+                    <span>{props.bedsNumber} beds</span>
                 </div>
             </div>
-            <p className={classes['booking-card--desc']}>Amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <div className={classes['booking-card--bot']}>
-                <p className={classes.date}>12.02.2022  - 15.02.2022</p>
+                <p className={classes.date}>{fromDate} - {toDate}</p>
                 <div className={`${classes['booking-card--status-div']}
                 ${classes[`booking-card--status-${status}`]}`}>
                     <ion-icon name="radio-button-on-outline"></ion-icon>

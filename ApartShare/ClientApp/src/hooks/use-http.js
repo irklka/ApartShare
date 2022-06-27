@@ -1,8 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
+import AuthContext from "../store/auth-context";
 
 
 const useHttp = () => {
     const [isLoading, setIsLoading] = useState(false);
+
+    const { logout } = useContext(AuthContext);
 
     const sendRequest = useCallback(async (requestConfig, applyData = null) => {
         setIsLoading(true);
@@ -29,8 +32,14 @@ const useHttp = () => {
             receivedData = await response.json();
         }
         catch (err) {
-            alert(err.message);
-            return;
+            if (err.message === "session is expired.") {
+                logout();
+                return;
+            }
+            else {
+                alert(err.message);
+                return;
+            }
         }
         console.log('responseOK');
         setIsLoading(false);

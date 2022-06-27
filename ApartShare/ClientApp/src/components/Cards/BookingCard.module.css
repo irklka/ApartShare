@@ -26,10 +26,6 @@
   gap: 1rem;
 }
 
-.booking-card--desc {
-  font-size: 1.2rem;
-}
-
 .booking-card--bot {
   display: flex;
   justify-content: space-between;
@@ -49,6 +45,10 @@
 
 .booking-card--status-div ion-icon {
   font-size: 2.5rem;
+}
+
+.booking-card--status-div span {
+  font-size: 1.4rem;
 }
 
 .booking-card--status-pending {
