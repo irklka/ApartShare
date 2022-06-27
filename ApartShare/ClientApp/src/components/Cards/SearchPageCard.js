@@ -101,9 +101,9 @@ const SearchPageCart = (props) => {
         availabilityStatus = "Available for booking"
     } else {
         const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
-        const toDate = format(Date.parse(props.toDate), 'MM/dd/yyyy');
+        const dueDate = format(Date.parse(props.dueDate), 'MM/dd/yyyy');
 
-        availabilityStatus = `${fromDate} - ${toDate}`;
+        availabilityStatus = `${fromDate} - ${dueDate}`;
     }
 
     // ********************************************* //

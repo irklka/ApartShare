@@ -38,8 +38,6 @@ const Search = (props) => {
     // ********************************************* //
 
     // ********** Using custom http hook ********** //
-    const url = `https://localhost:7209/api/Apartment/apartmentsFiltered?city=${enteredCity}&fromDate=${enteredFromDate}&dueDate=${enteredDueDate}`;
-
     const searchHelper = data => {
         console.log(data);
         if (data?.message) {
@@ -59,10 +57,15 @@ const Search = (props) => {
         console.log('entered');
         console.log(url);
 
-        if (enteredDueDate < enteredFromDate) {
+        if (enteredFromDate !== "" && enteredDueDate !== "" && enteredDueDate < enteredFromDate) {
             alert("Please enter valid date range");
             return
         }
+
+        const fromDate = enteredFromDate === "" ? null : enteredFromDate;
+        const dueDate = enteredDueDate === "" ? null : enteredDueDate;
+
+        const url = `https://localhost:7209/api/Apartment/apartmentsFiltered?city=${enteredCity}&fromDate=${fromDate}&dueDate=${dueDate}`;
 
         searchApartments({
             url: url,
@@ -93,7 +96,7 @@ const Search = (props) => {
                         distance={apartment.distanceToCenter}
                         beds={apartment.bedsNumber}
                         fromDate={apartment.fromDate}
-                        toDate={apartment.dueDate}
+                        dueDate={apartment.dueDate}
                         status={apartment.status}
                         guestId={props.userId}
                     />
@@ -107,11 +110,19 @@ const Search = (props) => {
     return <div className="page">
         <div className="container">
             <h1 className="page-heading">Find Appartments</h1>
-
             <form onSubmit={formSubmitHandler} className={classes['search-form']}>
-                <input onChange={cityChangeHandler} value={enteredCity} type="text" placeholder="Search by City" />
-                <input onChange={fromDateChangeHandler} value={enteredFromDate} type="date" />
-                <input onChange={dueDateChangeHandler} value={enteredDueDate} type="date" />
+                <div>
+                    <label htmlFor="city">City</label>
+                    <input id="city" onChange={cityChangeHandler} value={enteredCity} type="text" placeholder="Search by City" />
+                </div>
+                <div>
+                    <label htmlFor="fromDate">From</label>
+                    <input id="fromDate" onChange={fromDateChangeHandler} value={enteredFromDate} type="date" />
+                </div>
+                <div>
+                    <label htmlFor="dueDate">To</label>
+                    <input id="dueDate" onChange={dueDateChangeHandler} value={enteredDueDate} type="date" />
+                </div>
                 <button className="btn btn--full">Search</button>
             </form>
 

@@ -39,7 +39,7 @@ const MyBookings = () => {
                     city={booking.city}
                     distance={booking.distance}
                     fromDate={booking.fromDate}
-                    toDate={booking.toDate}
+                    dueDate={booking.dueDate}
                     img={booking.imageBase64}
                     status={booking.status}
                 />

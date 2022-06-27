@@ -23,7 +23,7 @@ const BookingsCard = (props) => {
     // *********************************** //
 
     const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
-    const toDate = format(Date.parse(props.toDate), 'MM/dd/yyyy');
+    const dueDate = format(Date.parse(props.dueDate), 'MM/dd/yyyy');
 
 
     return <div className={`${classes['flex-column']} ${classes['booking-card']}`}>
@@ -37,7 +37,7 @@ const BookingsCard = (props) => {
                 </div>
             </div>
             <div className={classes['booking-card--bot']}>
-                <p className={classes.date}>{fromDate} - {toDate}</p>
+                <p className={classes.date}>{fromDate} - {dueDate}</p>
                 <div className={`${classes['booking-card--status-div']}
                 ${classes[`booking-card--status-${status}`]}`}>
                     <ion-icon name="radio-button-on-outline"></ion-icon>

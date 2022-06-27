@@ -37,7 +37,7 @@ const MyGuests = () => {
                 img={myGuest.imageBase64}
                 name={myGuest.name}
                 fromDate={myGuest.fromDate}
-                toDate={myGuest.toDate}
+                dueDate={myGuest.dueDate}
             />
         });
 

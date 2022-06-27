@@ -40,7 +40,7 @@ const GuestCard = (props) => {
 
 
     const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
-    const toDate = format(Date.parse(props.toDate), 'MM/dd/yyyy');
+    const dueDate = format(Date.parse(props.dueDate), 'MM/dd/yyyy');
 
     return <div className={`${classes['guest-card']}`}>
         <img className={classes['guest-card--img']} src={props?.img || avatar} alt="flex's image" />
@@ -48,7 +48,7 @@ const GuestCard = (props) => {
             <p>{props.name}</p>
             <div>
                 <p>Booking date</p>
-                <p className={classes['guest-card--date']}>{fromDate} - {toDate}</p>
+                <p className={classes['guest-card--date']}>{fromDate} - {dueDate}</p>
             </div>
         </div>
         <div className={classes['guest-card--last-part']}>

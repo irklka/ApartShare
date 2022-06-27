@@ -218,8 +218,9 @@ const Apartment = (props) => {
             ${classes['profile-form--apartment']}`}>
                     <form>
                         <div className="input-div">
-                            <label>City</label>
+                            <label htmlFor="city">City</label>
                             <input
+                                id="city"
                                 onChange={cityChangeHandler}
                                 onBlur={cityBlurHandler}
                                 onFocus={cityFocusHandler}
@@ -231,8 +232,9 @@ const Apartment = (props) => {
                             <p className={invalidCityClass}>Please do not leave input blank</p>
                         </div>
                         <div className="input-div">
-                            <label>Address</label>
+                            <label htmlFor="address">Address</label>
                             <input
+                                id="address"
                                 onChange={addressChangeHandler}
                                 onBlur={addressBlurHandler}
                                 onFocus={addressFocusHandler}
@@ -245,8 +247,9 @@ const Apartment = (props) => {
 
                         </div>
                         <div className="input-div">
-                            <label>Distance to center in meters</label>
+                            <label htmlFor="distance">Distance to center in meters</label>
                             <input
+                                id="distance"
                                 onChange={distanceToCenterChangeHandler}
                                 onBlur={distanceToCenterBlurHandler}
                                 onFocus={distanceFocusHandler}
@@ -259,8 +262,9 @@ const Apartment = (props) => {
                             <p className={invalidDistanceClass}>Distance should be at least 1</p>
                         </div>
                         <div className="input-div">
-                            <label>Number of guests</label>
+                            <label htmlFor="beds">Number of guests</label>
                             <input
+                                id="beds"
                                 onChange={numOfGuestsChangeHandler}
                                 onBlur={numOfGuestsBlurHandler}
                                 onFocus={bedsFocusHandler}
@@ -272,19 +276,11 @@ const Apartment = (props) => {
                             />
                             <p className={invalidBedsClass}>Number of guests be at least 1</p>
                         </div>
-                        {/* <div className="input-div">
-                            <textarea rows={3}
-                                onChange={descriptionChangeHandler}
-                                onBlur={descriptionBlurHandler}
-                                type='text'
-                                value={enteredDescription}
-                                placeholder={`${props.Apartment && props.Apartment.description || 'Description'}`}
-                            />
-                            <p className={invalidPasswordClass}>Please enter at least 7 characters</p>
-                        </div> */}
                         <div className="input-div">
-                            <label>Apartment photo</label>
-                            <input type="file" onChange={uploadImage} onBlur={imageBlurHandler} />
+                            <label htmlFor="apartment-img">Apartment photo</label>
+                            <input
+                                id="apartment-img"
+                                type="file" onChange={uploadImage} onBlur={imageBlurHandler} />
                             <p className={invalidFileClass}>Please upload valid image</p>
                         </div>
                         <button onClick={formSubmitHandler} className={`btn btn--full btn--save-all-changes`}>Save all changes</button>
