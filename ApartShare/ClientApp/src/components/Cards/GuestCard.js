@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import avatar from "../../images/avatar.jpg";
 import classes from "./GuestCard.module.css";
 import format from "date-fns/format";
@@ -7,6 +8,8 @@ import useHttp from "../../hooks/use-http";
 
 const GuestCard = (props) => {
     const [status, setStatus] = useState(null);
+
+    const navigate = useNavigate();
     console.log(props.id);
 
     // ********** Using custom http hook for booking apartment ********** //
@@ -14,7 +17,8 @@ const GuestCard = (props) => {
 
     const acceptOrDeclineRequest = (data) => {
         console.log(data);
-        // alert("Request has been sent");
+        alert("Request has been sent");
+        navigate(0);
     }
 
     const { sendRequest: changeRequestStatus } = useHttp();
@@ -42,6 +46,22 @@ const GuestCard = (props) => {
     const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
     const dueDate = format(Date.parse(props.dueDate), 'MM/dd/yyyy');
 
+    let result;
+
+    switch (props.status) {
+        case 0:
+            result = <Fragment>
+                <button onClick={onAcceptHandler} className="btn btn--full">Accept</button>
+                <button onClick={onDeclineHandler} className="btn btn--outline">Decline</button>
+            </Fragment>
+            break;
+        case 1:
+            result = <p className={classes.resultMessage}>Request has been accepted</p>;
+            break;
+        case 2:
+            result = <p className={classes.resultMessage}>Request has been declined</p>;
+    }
+
     return <div className={`${classes['guest-card']}`}>
         <img className={classes['guest-card--img']} src={props?.img || avatar} alt="flex's image" />
         <div className={classes['guest-card--desc']}>
@@ -53,8 +73,7 @@ const GuestCard = (props) => {
         </div>
         <div className={classes['guest-card--last-part']}>
             <div className={classes['guest-card--btns']}>
-                <button onClick={onAcceptHandler} className="btn btn--full">Accept</button>
-                <button onClick={onDeclineHandler} className="btn btn--outline">Decline</button>
+                {result}
             </div>
         </div>
     </div>

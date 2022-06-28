@@ -16,7 +16,7 @@ const Search = (props) => {
         valueChangeHandler: cityChangeHandler,
         inputBlurHandler: cityBlurHandler,
         reset: resetCityInput
-    } = useInput(value => value.trim() != '');
+    } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredFromDate,
@@ -25,7 +25,7 @@ const Search = (props) => {
         valueChangeHandler: fromDateChangeHandler,
         inputBlurHandler: fromDateBlurHandler,
         reset: resetFromDateInput
-    } = useInput(value => value.trim() != '');
+    } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredDueDate,
@@ -34,7 +34,7 @@ const Search = (props) => {
         valueChangeHandler: dueDateChangeHandler,
         inputBlurHandler: dueDateBlurHandler,
         reset: resetDueDateInput
-    } = useInput(value => value.trim() != '');
+    } = useInput(value => value.trim() !== '');
     // ********************************************* //
 
     // ********** Using custom http hook ********** //
@@ -55,17 +55,24 @@ const Search = (props) => {
         console.log(enteredFromDate);
         console.log(enteredDueDate);
         console.log('entered');
-        console.log(url);
 
-        if (enteredFromDate !== "" && enteredDueDate !== "" && enteredDueDate < enteredFromDate) {
-            alert("Please enter valid date range");
+        if ((enteredFromDateIsValid && !enteredDueDateIsValid) ||
+            (!enteredFromDateIsValid && enteredDueDateIsValid)) {
+            alert("Please select both dates or no dates to search apartments.");
             return
         }
 
-        const fromDate = enteredFromDate === "" ? null : enteredFromDate;
-        const dueDate = enteredDueDate === "" ? null : enteredDueDate;
+        if (enteredDueDate < enteredFromDate) {
+            alert("Please enter valid date range");
+            return;
+        }
+
+        const fromDate = !enteredFromDateIsValid ? "" : enteredFromDate;
+        const dueDate = !enteredDueDateIsValid ? "" : enteredDueDate;
 
         const url = `https://localhost:7209/api/Apartment/apartmentsFiltered?city=${enteredCity}&fromDate=${fromDate}&dueDate=${dueDate}`;
+
+        console.log(url);
 
         searchApartments({
             url: url,

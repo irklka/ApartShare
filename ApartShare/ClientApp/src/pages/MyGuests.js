@@ -38,6 +38,7 @@ const MyGuests = () => {
                 name={myGuest.name}
                 fromDate={myGuest.fromDate}
                 dueDate={myGuest.dueDate}
+                status={myGuest.status}
             />
         });
 

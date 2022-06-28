@@ -20,7 +20,7 @@ const SearchPageCart = (props) => {
         valueChangeHandler: fromDateChangeHandler,
         inputBlurHandler: fromDateBlurHandler,
         reset: resetFromDateInput
-    } = useInput(value => value.trim() != '');
+    } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredDueDate,
@@ -29,7 +29,7 @@ const SearchPageCart = (props) => {
         valueChangeHandler: dueDateChangeHandler,
         inputBlurHandler: dueDateBlurHandler,
         reset: resetDueDateInput
-    } = useInput(value => value.trim() != '');
+    } = useInput(value => value.trim() !== '');
     // ********************************************* //
 
     // ******* Apartment status logic ******* //

@@ -121,7 +121,7 @@ const Apartment = (props) => {
 
     const registerApartmentData = data => {
         console.log(data);
-        navigate('/profile', { replace: true })
+        navigate(0);
     }
 
     const { sendRequest: addApartment } = useHttp();
