@@ -43,15 +43,15 @@ namespace ApartShare.Controllers
                 });
             }
 
-            if (dueDate == null)
-            {
-                dueDate = DateTime.Now.AddDays(7);
-            }
+            //if (dueDate == null)
+            //{
+            //    dueDate = DateTime.Now.AddDays(1);
+            //}
 
-            if (fromDate == null)
-            {
-                fromDate = DateTime.Now;
-            }
+            //if (fromDate == null)
+            //{
+            //    fromDate = DateTime.Now;
+            //}
 
             var response = new ApartmentsDTO()
             {
@@ -76,7 +76,8 @@ namespace ApartShare.Controllers
                     .Where(x => x.City.ToLower().Contains(city.ToLower()));
 
             }
-            if (fromDate != null && fromDate < dueDate)
+
+            if (fromDate != null && dueDate != null && fromDate <= dueDate)
             {
                 allApartments = allApartments
                     .Where(x => (x.FromDate >= dueDate || x.DueDate <= fromDate));
