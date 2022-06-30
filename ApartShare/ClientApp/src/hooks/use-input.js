@@ -13,7 +13,6 @@ const useInput = (validateValue) => {
     }
 
     const inputFocuseHandler = (event) => {
-        console.log('Focused');
         setIsFocused(true);
     }
 

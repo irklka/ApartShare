@@ -1,42 +1,6 @@
 import classes from "./Profile.module.css";
-import useInput from "../../hooks/use-input";
-import { useEffect } from "react";
-
 
 const UserProfile = (props) => {
-
-    // ********** Using custom input hook ********** //
-    const {
-        value: enteredFullname,
-        isValid: enteredFullnameIsValid,
-        hasError: fullNameInputHasError,
-        valueChangeHandler: fullNameChangeHandler,
-        inputBlurHandler: fullNameBlurHandler,
-        reset: resetFullnameInput,
-        setInputValue: setFullName
-    } = useInput(value => value.trim() !== '');
-
-    const {
-        value: enteredUsername,
-        isValid: enteredUsernameIsValid,
-        hasError: userNameInputHasError,
-        valueChangeHandler: userNameChangeHandler,
-        inputBlurHandler: userNameBlurHandler,
-        reset: resetUsernameInput,
-        setInputValue: setUsername
-    } = useInput(value => value.trim() !== '');
-
-    const {
-        value: enteredEmail,
-        isValid: enteredEmailIsValid,
-        hasError: emailInputHasError,
-        valueChangeHandler: emailChangeHandler,
-        inputBlurHandler: emailBlurHandler,
-        reset: resetEmailInput,
-        setInputValue: setEmail
-    } = useInput(value => value.includes('@'));
-    // ********************************************* //
-
     return <div className={`container ${classes['text-align-left']}`}>
         <h1 className="page-heading">Profile</h1>
         <div className={`grid grid--2-cols ${classes['profile-form-container']}`}>

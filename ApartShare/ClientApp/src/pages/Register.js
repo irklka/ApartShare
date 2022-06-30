@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classes from './Register.module.css';
 import useInput from '../hooks/use-input';
 import useHttp from '../hooks/use-http';
-import { useState } from 'react';
 
 
 const Register = () => {
@@ -20,7 +20,6 @@ const Register = () => {
         hasError: fullNameInputHasError,
         valueChangeHandler: fullNameChangeHandler,
         inputBlurHandler: fullNameBlurHandler,
-        reset: resetFullnameInput
     } = useInput(value => value.trim() !== '');
 
     const {
@@ -29,7 +28,6 @@ const Register = () => {
         hasError: userNameInputHasError,
         valueChangeHandler: userNameChangeHandler,
         inputBlurHandler: userNameBlurHandler,
-        reset: resetUsernameInput
     } = useInput(value => value.trim() !== '');
 
     const {
@@ -38,7 +36,6 @@ const Register = () => {
         hasError: emailInputHasError,
         valueChangeHandler: emailChangeHandler,
         inputBlurHandler: emailBlurHandler,
-        reset: resetEmailInput
     } = useInput(value => value.includes('@'));
 
     const {
@@ -47,7 +44,6 @@ const Register = () => {
         hasError: passwordInputHasError,
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
-        reset: resetPasswordInput
     } = useInput(value => value.length > 7);
     // ********************************************* //
 
@@ -78,11 +74,10 @@ const Register = () => {
     }
     // ********************************************* //
 
-    // ********** Using custom http hook ********** //
+    // ********** Using custom http hook for registering user ********** //
     const url = 'https://localhost:7209/api/User/registration';
 
     const registerData = data => {
-        console.log(data);
         navigate('/login', { replace: true });
     }
 
@@ -118,9 +113,6 @@ const Register = () => {
         sendRequest({
             url: url,
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: {
                 email: enteredEmail,
                 password: enteredPassword,
@@ -198,7 +190,7 @@ const Register = () => {
                         onChange={uploadImage}
                         onBlur={imageBlurHandler}
                     />
-                    <p className={invalidFileClass}>Please upload valid image</p>
+                    <p className={invalidFileClass}>Please upload valid image or register without it</p>
                 </div>
                 <button className={`btn btn--full ${classes['btn--register']}`}>Register</button>
             </form>

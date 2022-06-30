@@ -27,20 +27,11 @@ const App = () => {
   const { isLoading, sendRequest: fetchUserData } = useHttp();
   // ********************************************* //
 
-  console.log(isLoggedIn);
-
-  // const isLoggedIn = true;
-
-
   useEffect(() => {
     if (isLoggedIn) {
-      console.log('App.js user info - effect');
-
       const url = 'https://localhost:7209/api/User/profile';
 
       const setProfileData = data => {
-        console.log(data);
-        console.log('Profile Info useEffect Called from App.js');
         setUserData(prev => {
           return {
             ...prev,

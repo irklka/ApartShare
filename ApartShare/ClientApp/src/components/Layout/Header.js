@@ -1,5 +1,5 @@
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
 import classes from './Header.module.css';
 import AuthContext from '../../store/auth-context';
 

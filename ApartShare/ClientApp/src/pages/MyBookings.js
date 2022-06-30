@@ -17,15 +17,13 @@ const MyBookings = () => {
     // ********************************************* //
 
     useEffect(() => {
-        console.log('myRequest Data - useEffect');
-
         getmyRequestData({
             url: url,
             credentials: 'include',
         }, myRequestData);
     }, [getmyRequestData]);
 
-    const loadingElement = <p className={classes.loadingMessage}>Page is loading, please wait few seconds...</p>;
+    const loadingElement = <p className={classes.loadingMessage}>Page is loading, please wait for few seconds...</p>;
 
     const resultElement = bookings.length === 0 ?
         <p className={classes.loadingMessage}>There are no booking requests at the moment</p> :

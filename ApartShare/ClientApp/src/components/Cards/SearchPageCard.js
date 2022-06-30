@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import classes from './SearchPageCard.module.css';
 import useHttp from '../../hooks/use-http';
-import { useState } from 'react';
 import useInput from '../../hooks/use-input';
 import format from 'date-fns/format';
 
@@ -8,27 +8,22 @@ import format from 'date-fns/format';
 const SearchPageCart = (props) => {
     const [toggle, setToggle] = useState(false);
 
+    // ********** Marking users's apartment in search results ********** //
     const usersCard = props.hostId === props.guestId;
     const usersApartmentClass = !usersCard ? classes['users-apartment-note'] : `${classes['users-apartment-note']} visible`;
-
+    // *********************************** //
 
     // ********** Using custom input hook ********** //
     const {
         value: enteredFromDate,
         isValid: enteredFromDateIsValid,
-        hasError: fromDateInputHasError,
         valueChangeHandler: fromDateChangeHandler,
-        inputBlurHandler: fromDateBlurHandler,
-        reset: resetFromDateInput
     } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredDueDate,
         isValid: enteredDueDateIsValid,
-        hasError: dueDateInputHasError,
         valueChangeHandler: dueDateChangeHandler,
-        inputBlurHandler: dueDateBlurHandler,
-        reset: resetDueDateInput
     } = useInput(value => value.trim() !== '');
     // ********************************************* //
 
@@ -63,13 +58,7 @@ const SearchPageCart = (props) => {
     const { sendRequest: bookApartment } = useHttp();
     // ********************************************* //
 
-
     const bookApartmentHandler = event => {
-        console.log('Apartment booked!');
-        console.log(props.city);
-        console.log(enteredFromDate);
-        console.log(enteredDueDate);
-
         if (!enteredFromDateIsValid || !enteredDueDateIsValid) {
             alert("Please enter Date range for booking");
             return;
@@ -94,7 +83,6 @@ const SearchPageCart = (props) => {
     }
 
     // ********** Showing date logic ********** //
-
     let availabilityStatus;
 
     if (props.fromDate === null) {
@@ -102,10 +90,8 @@ const SearchPageCart = (props) => {
     } else {
         const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
         const dueDate = format(Date.parse(props.dueDate), 'MM/dd/yyyy');
-
         availabilityStatus = `${fromDate} - ${dueDate}`;
     }
-
     // ********************************************* //
 
     return <div className={`${classes['flex-column']} ${classes['result-card']}`}>
@@ -114,12 +100,10 @@ const SearchPageCart = (props) => {
             <div className={classes['location-info']}>
                 <p>{`${props.city}, ${props.address}`} <span className={usersApartmentClass}>User's apartment</span></p>
                 <div>
-                    <span>{`${props.distance} to center`}</span>
+                    <span>{`${props.distance}m to center`}</span>
                     <span>{`${props.beds} beds`}</span>
                 </div>
             </div>
-            {/* <p className={classes['result-card--desc']}>{props.description}</p> */}
-
             <div className={classes['searchResult-card--bot']}>
                 <p className={classes.date}>{availabilityStatus}</p>
                 <div className={`${classes['searchResult-card--status-div']}

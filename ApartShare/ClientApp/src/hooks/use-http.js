@@ -21,11 +21,8 @@ const useHttp = () => {
                 body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
             });
 
-            console.log(response);
-
             if (!response.ok) {
                 const error = await response.json();
-                console.log(error.message);
                 throw new Error(error.message);
             }
 
@@ -41,9 +38,8 @@ const useHttp = () => {
                 return;
             }
         }
-        console.log('responseOK');
         setIsLoading(false);
-        applyData(receivedData);
+        !!applyData && applyData(receivedData);
     }, []);
 
     return {

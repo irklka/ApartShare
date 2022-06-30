@@ -1,4 +1,3 @@
-import image from '../../images/houses/house-1.jpg';
 import classes from './BookingCard.module.css';
 import format from 'date-fns/format';
 
@@ -24,7 +23,6 @@ const BookingsCard = (props) => {
 
     const fromDate = format(Date.parse(props.fromDate), 'MM/dd/yyyy');
     const dueDate = format(Date.parse(props.dueDate), 'MM/dd/yyyy');
-
 
     return <div className={`${classes['flex-column']} ${classes['booking-card']}`}>
         <img className={classes['booking-card--img']} src={props.img} alt="House image" />

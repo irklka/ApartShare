@@ -10,14 +10,11 @@ const GuestCard = (props) => {
     const [status, setStatus] = useState(null);
 
     const navigate = useNavigate();
-    console.log(props.id);
 
     // ********** Using custom http hook for booking apartment ********** //
     const url = `https://localhost:7209/api/Request/changeRequestStatus?id=${props.id}&status=${status}`;
 
     const acceptOrDeclineRequest = (data) => {
-        console.log(data);
-        alert("Request has been sent");
         navigate(0);
     }
 

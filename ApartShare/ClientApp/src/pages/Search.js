@@ -11,35 +11,24 @@ const Search = (props) => {
     // ********** Using custom input hook ********** //
     const {
         value: enteredCity,
-        isValid: enteredCityIsValid,
-        hasError: cityInputHasError,
         valueChangeHandler: cityChangeHandler,
-        inputBlurHandler: cityBlurHandler,
-        reset: resetCityInput
     } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredFromDate,
         isValid: enteredFromDateIsValid,
-        hasError: fromDateInputHasError,
         valueChangeHandler: fromDateChangeHandler,
-        inputBlurHandler: fromDateBlurHandler,
-        reset: resetFromDateInput
     } = useInput(value => value.trim() !== '');
 
     const {
         value: enteredDueDate,
         isValid: enteredDueDateIsValid,
-        hasError: dueDateInputHasError,
         valueChangeHandler: dueDateChangeHandler,
-        inputBlurHandler: dueDateBlurHandler,
-        reset: resetDueDateInput
     } = useInput(value => value.trim() !== '');
     // ********************************************* //
 
-    // ********** Using custom http hook ********** //
+    // ********** Using custom http hook for searching apartments ********** //
     const searchHelper = data => {
-        console.log(data);
         if (data?.message) {
             setSearchResult("Result was not found");
         } else {
@@ -52,9 +41,6 @@ const Search = (props) => {
 
     const formSubmitHandler = event => {
         event.preventDefault();
-        console.log(enteredFromDate);
-        console.log(enteredDueDate);
-        console.log('entered');
 
         if ((enteredFromDateIsValid && !enteredDueDateIsValid) ||
             (!enteredFromDateIsValid && enteredDueDateIsValid)) {
@@ -72,18 +58,14 @@ const Search = (props) => {
 
         const url = `https://localhost:7209/api/Apartment/apartmentsFiltered?city=${enteredCity}&fromDate=${fromDate}&dueDate=${dueDate}`;
 
-        console.log(url);
-
         searchApartments({
             url: url,
             credentials: 'include'
         }, searchHelper);
     }
 
-    // console.log(searchResult);
-
     const loadingElement = <div className={classes.loadingAndSearchMessage}>
-        <p>Result is loading, please wait few seconds...</p>
+        <p>Result is loading, please wait for few seconds...</p>
     </div>;
 
     const resultElement =

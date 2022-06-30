@@ -7,6 +7,7 @@
 
 .result-card--img {
   width: 100%;
+  max-height: 350px;
 }
 
 .result-card--info {
@@ -50,7 +51,6 @@
 
 .result-card--bot {
   display: flex;
-  justify-content: space-between;
   justify-content: center;
 }
 

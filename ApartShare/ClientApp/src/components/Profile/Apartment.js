@@ -5,7 +5,6 @@ import useInput from '../../hooks/use-input';
 import useHttp from '../../hooks/use-http';
 import apartmentAvatar from './../../images/house.png'
 
-
 const arrowDown = <svg xmlns="http://www.w3.org/2000/svg" className='icon' fill="none" viewBox="0 0 24 24" stroke="currentColor"
     strokeWidth="2">
     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -16,10 +15,7 @@ const arrowUp = <svg xmlns="http://www.w3.org/2000/svg" className='icon' fill="n
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
 </svg>
 
-
 const Apartment = (props) => {
-    // console.log(props.Apartment);
-
     const navigate = useNavigate();
 
     const [toggleAccordion, setToggleAccordion] = useState(false);
@@ -32,7 +28,6 @@ const Apartment = (props) => {
     const displayContentClass = toggleAccordion ? 'display' : '';
     const itemBorderClass = toggleAccordion ? 'item-border' : '';
 
-
     // ********** Using custom input hook ********** //
     const {
         value: enteredCity,
@@ -42,7 +37,6 @@ const Apartment = (props) => {
         valueChangeHandler: cityChangeHandler,
         inputBlurHandler: cityBlurHandler,
         inputFocuseHandler: cityFocusHandler,
-        reset: resetCityInput,
     } = useInput(value => value.trim() !== '');
 
     const {
@@ -53,7 +47,6 @@ const Apartment = (props) => {
         valueChangeHandler: addressChangeHandler,
         inputBlurHandler: addressBlurHandler,
         inputFocuseHandler: addressFocusHandler,
-        reset: resetAddressInput
     } = useInput(value => value.trim() !== '');
 
     const {
@@ -64,7 +57,6 @@ const Apartment = (props) => {
         valueChangeHandler: distanceToCenterChangeHandler,
         inputBlurHandler: distanceToCenterBlurHandler,
         inputFocuseHandler: distanceFocusHandler,
-        reset: resetDistanceToCenterInput
     } = useInput(value => Number.isFinite(+value) && value > 0);
 
     const {
@@ -75,23 +67,12 @@ const Apartment = (props) => {
         valueChangeHandler: numOfGuestsChangeHandler,
         inputBlurHandler: numOfGuestsBlurHandler,
         inputFocuseHandler: bedsFocusHandler,
-        reset: resetNumOfGuestsInput
     } = useInput(value => Number.isInteger(+value) && +value > 0);
-
-    // const {
-    //     value: enteredDescription,
-    //     isValid: enteredDescriptionIsValid,
-    //     hasError: descriptionInbutHasError,
-    //     valueChangeHandler: descriptionChangeHandler,
-    //     inputBlurHandler: descriptionBlurHandler,
-    //     reset: resetDescriptionInput
-    // } = useInput(value => value.trim() !== '');
     // ********************************************* //
 
     // ********** File input type logic ********** //
     const uploadImage = async (event) => {
         const file = event.target.files[0];
-        console.log(`called from upload method - ${event.target}`);
         const base64 = await convertToBase64(file);
         setBaseImage(base64);
     }
@@ -116,11 +97,10 @@ const Apartment = (props) => {
     }
     // ********************************************* //
 
-    // ********** Using custom http hook ********** //
+    // ********** Using custom http hook for adding or changing user's apartment info ********** //
     const url = 'https://localhost:7209/api/Apartment';
 
     const registerApartmentData = data => {
-        console.log(data);
         navigate(0);
     }
 
@@ -147,18 +127,9 @@ const Apartment = (props) => {
         numOfGuestsBlurHandler();
         imageBlurHandler();
 
-        // console.log(enteredCityIsValid);
-        // console.log(enteredAddressIsValid);
-        // console.log(enteredDistanceToCenterIsValid);
-        // console.log(enteredNumOfGuestsIsValid);
-        // console.log(uploadedImageIsValid);
-
         if (!formIsValid) {
-            console.log('invalid form');
             return;
         }
-
-        console.log(baseImage);
 
         const enteredData = {
             city: enteredCity !== '' ? enteredCity : props.Apartment.city,
@@ -168,12 +139,9 @@ const Apartment = (props) => {
             imageBase64: baseImage !== '' ? baseImage : props.Apartment.imageBase64,
         }
 
-        console.log(enteredData);
-
         addApartment({
             url: url,
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: {
                 city: enteredData.city,
@@ -188,8 +156,6 @@ const Apartment = (props) => {
     const addApartmentClickHandler = event => {
         setToggleAccordion(prev => !prev);
     }
-
-    console.log(distanceInputHasError);
 
     // ********** Alerting invalid input errors ********** //
     const hasAddedApartment = props.Apartment !== null ? true : false;
@@ -274,7 +240,7 @@ const Apartment = (props) => {
                                     ? enteredNumOfGuests : props.Apartment.bedsNumber}
                                 placeholder={!hasAddedApartment ? "Max number of guests" : ""}
                             />
-                            <p className={invalidBedsClass}>Number of guests be at least 1</p>
+                            <p className={invalidBedsClass}>Number of guests should be at least 1 and should be an integer</p>
                         </div>
                         <div className="input-div">
                             <label htmlFor="apartment-img">Apartment photo</label>

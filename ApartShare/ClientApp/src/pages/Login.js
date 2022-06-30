@@ -1,8 +1,8 @@
-import classes from './Login.module.css';
+import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import classes from './Login.module.css';
 import useInput from '../hooks/use-input';
 import AuthContext from '../store/auth-context';
-import { useContext } from 'react';
 import useHttp from '../hooks/use-http';
 
 const Login = () => {
@@ -16,7 +16,6 @@ const Login = () => {
         hasError: usernameInputHasError,
         valueChangeHandler: usernameChangeHandler,
         inputBlurHandler: usernameBlurHandler,
-        reset: resetUsernameInput
     } = useInput(value => value.trim() !== '');
 
     const {
@@ -25,20 +24,18 @@ const Login = () => {
         hasError: passwordInputHasError,
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
-        reset: resetPasswordInput
     } = useInput(value => value.length > 6);
     // ********************************************* //
 
-    // ********** Using custom http hook ********** //
+    // ********** Using custom http hook for user authentication ********** //
     const url = 'https://localhost:7209/api/User/login'
 
     const loginData = data => {
-        console.log(data);
         login(true);
         navigate('/search', { replace: true });
     }
 
-    const { isLoading, sendRequest } = useHttp();
+    const { sendRequest } = useHttp();
     // ********************************************* //
 
     let formIsValid = false;
@@ -70,12 +67,12 @@ const Login = () => {
         }, loginData);
     }
 
-
+    // ********** Alerting invalid input errors ********** //
     const invalidUsernameClass = usernameInputHasError ?
         'invalid-inputs visible' : 'invalid-inputs';
     const invalidPasswordClass = passwordInputHasError ?
         'invalid-inputs visible' : 'invalid-inputs';
-
+    // ********************************************* //
 
     return (
         <div className={`wrapper ${classes['login-background']}`}>

@@ -10,7 +10,6 @@ const MyGuests = () => {
     const url = `https://localhost:7209/api/Request/myGuests`;
 
     const guestData = (data) => {
-        console.log(data);
         setMyGuests(data);
     }
 
@@ -18,15 +17,13 @@ const MyGuests = () => {
     // ********************************************* //
 
     useEffect(() => {
-        console.log('Guest Data - useEffect');
-
         getGuestData({
             url: url,
             credentials: 'include',
         }, guestData);
     }, [getGuestData]);
 
-    const loadingElement = <p className={classes.loadingMessage}>Page is loading, please wait few seconds...</p>;
+    const loadingElement = <p className={classes.loadingMessage}>Page is loading, please wait for few seconds...</p>;
 
     const resultElement = myGuests.length === 0 ?
         <p className={classes.loadingMessage}>There are no guest requests at the moment</p> :
