@@ -2,7 +2,6 @@
 
 .user-profile-img {
   height: 100%;
-  position: relative;
 }
 
 .user-img-container {
@@ -11,14 +10,6 @@
   max-width: 500px;
   overflow: hidden;
   justify-self: right;
-}
-
-/* this can be both profile and apartment forms css rule */
-
-.apartment-form-container {
-  border: 1px solid #5f3dc4;
-  border-radius: 4px;
-  padding: 0 48px;
 }
 
 .profile-form--apartment {

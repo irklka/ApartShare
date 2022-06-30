@@ -53,19 +53,19 @@ const GuestCard = (props) => {
             </Fragment>
             break;
         case 1:
-            result = <p className={classes.resultMessage}>Request has been accepted</p>;
+            result = <p className={classes["guest-card--text"]}>Request has been accepted</p>;
             break;
         case 2:
-            result = <p className={classes.resultMessage}>Request has been declined</p>;
+            result = <p className={classes["guest-card--text"]}>Request has been declined</p>;
     }
 
     return <div className={`${classes['guest-card']}`}>
         <img className={classes['guest-card--img']} src={props?.img || avatar} alt="flex's image" />
         <div className={classes['guest-card--desc']}>
-            <p>{props.name}</p>
+            <p className={classes["guest-card--text"]}>{props.name}</p>
             <div>
-                <p>Booking date</p>
-                <p className={classes['guest-card--date']}>{fromDate} - {dueDate}</p>
+                <p className={classes["guest-card--text"]}>Booking date</p>
+                <p className={classes["guest-card--text"]}>{fromDate} - {dueDate}</p>
             </div>
         </div>
         <div className={classes['guest-card--last-part']}>

@@ -173,7 +173,7 @@ const Apartment = (props) => {
     // ********************************************* //
 
     return <div className='container'>
-        <div className={`accordion ${classes['apartment-form-container']}`}>
+        <div className="accordion userprofile-container">
             <div onClick={addApartmentClickHandler} className={`item ${itemBorderClass}`}>
                 <p>Add an apartment</p>
                 {toggleAccordion ? arrowUp : arrowDown}

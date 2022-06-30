@@ -2,7 +2,6 @@
 
 .user-profile-img {
   width: 100%;
-  position: relative;
 }
 
 .user-img-container {
@@ -13,39 +12,28 @@
 
 .profile-form-container {
   max-width: 60rem;
-  border: 1px solid #5f3dc4;
-  border-radius: 4px;
   align-items: center;
-  padding: 0 48px;
 }
 
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.4rem;
   margin-left: 2rem;
   padding: 2.4rem 8rem;
   border-radius: 4px;
   background-color: transparent;
 }
 
-.text-align-center {
-  text-align: center;
-}
-
-.flex-container {
-  display: flex;
-}
-
-.form-gap {
-  gap: 24px;
+.profile-form div {
+  gap: 1px !important;
 }
 
 .label {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
 
 .info {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 500;
 }

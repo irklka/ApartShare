@@ -1,29 +1,5 @@
 /** @format */
 
-.result-card {
-  gap: 2.4rem;
-  box-shadow: 0 0 10px rgb(119, 119, 119, 0.5);
-}
-
-.result-card--img {
-  width: 100%;
-  max-height: 350px;
-}
-
-.result-card--info {
-  padding: 0 4.8rem 2.4rem;
-  gap: 2.4rem;
-}
-
-.location-info {
-  position: relative;
-}
-
-.location-info p {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
 .users-apartment-note {
   font-size: 1.4rem;
   color: #3c228b;
@@ -33,30 +9,9 @@
   visibility: hidden;
 }
 
-.location-info div {
-  font-size: 1.2rem;
-  font-weight: 500;
-  display: flex;
-  gap: 1rem;
-}
-
-.result-card--desc {
-  font-size: 1.2rem;
-}
-
-.date {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
 .result-card--bot {
   display: flex;
   justify-content: center;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
 }
 
 .btn--book-now {
@@ -68,38 +23,12 @@
   border: 1px solid #888 !important;
 }
 
-.searchResult-card--status-div ion-icon {
-  font-size: 2.5rem;
-}
-
 .searchResult-card--status-available {
   color: #18a0fb;
 }
 
 .searchResult-card--status-unavailable {
   color: #ff9292;
-}
-
-.searchResul-toggle--div {
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-}
-
-.searchResult-card--bot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.searchResult-card--bot span {
-  font-size: 1.4rem;
-}
-
-.searchResult-card--status-div {
-  align-items: center;
-  display: flex;
-  gap: 0.6rem;
 }
 
 .searchResult-card--input-div {

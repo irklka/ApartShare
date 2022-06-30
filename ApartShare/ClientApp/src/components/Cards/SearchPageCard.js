@@ -94,19 +94,19 @@ const SearchPageCart = (props) => {
     }
     // ********************************************* //
 
-    return <div className={`${classes['flex-column']} ${classes['result-card']}`}>
-        <img className={classes['result-card--img']} src={props.img} alt="House image" />
-        <div className={`${classes['flex-column']} ${classes['result-card--info']}`}>
-            <div className={classes['location-info']}>
+    return <div className="flex-column card">
+        <img className="card-img" src={props.img} alt="House image" />
+        <div className="flex-column card-info">
+            <div className="location-info">
                 <p>{`${props.city}, ${props.address}`} <span className={usersApartmentClass}>User's apartment</span></p>
                 <div>
                     <span>{`${props.distance}m to center`}</span>
                     <span>{`${props.beds} beds`}</span>
                 </div>
             </div>
-            <div className={classes['searchResult-card--bot']}>
-                <p className={classes.date}>{availabilityStatus}</p>
-                <div className={`${classes['searchResult-card--status-div']}
+            <div className="card-bot">
+                <p className="date">{availabilityStatus}</p>
+                <div className={`card-status--div
                 ${classes[`searchResult-card--status-${status}`]}`}>
                     <ion-icon name="radio-button-on-outline"></ion-icon>
                     <span>{status}</span>
@@ -122,7 +122,7 @@ const SearchPageCart = (props) => {
                     Book now
                 </button>
             </div>
-            {toggle && <div className={classes['searchResul-toggle--div']}>
+            {toggle && <div className="flex-column">
                 <div className={classes['searchResult-card--input-div']}>
                     <div>
                         <label>From date</label>

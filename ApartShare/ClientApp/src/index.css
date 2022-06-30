@@ -255,7 +255,7 @@ textarea {
 }
 
 /********************************/
-/* PROFILE */
+/* USERPROFILE */
 /********************************/
 
 .btn--save-changes {
@@ -294,4 +294,70 @@ textarea {
   width: 1.5rem;
   height: 1.5rem;
   stroke: #845ef7;
+}
+
+.userprofile-container {
+  border: 1px solid #5f3dc4;
+  border-radius: 4px;
+  padding: 0 48px;
+}
+
+/********************************/
+/* Search result & Booking cards */
+/********************************/
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.card {
+  box-shadow: 0 0 10px rgb(119, 119, 119, 0.5);
+}
+
+.card-img {
+  width: 100%;
+  max-height: 350px;
+}
+
+.card-info {
+  padding: 0 4.8rem 2.4rem;
+}
+
+.location-info p {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.location-info div {
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: flex;
+  gap: 1rem;
+}
+
+.date {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.card-bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-bot span {
+  font-size: 1.4rem;
+}
+
+.card-status--div {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.card-status--div ion-icon {
+  font-size: 2.5rem;
 }
