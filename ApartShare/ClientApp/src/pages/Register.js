@@ -10,7 +10,7 @@ const Register = () => {
     const [baseImage, setBaseImage] = useState("");
     const [fileInputIsTouched, setFileInputIsTouched] = useState(false);
 
-    const uploadedImageIsValid = baseImage.includes('image') || baseImage !== "";
+    const uploadedImageIsValid = baseImage.includes('image') || baseImage === "";
     const fileInputHasError = !uploadedImageIsValid && fileInputIsTouched;
 
     // ********** Using custom input hook ********** //
@@ -90,7 +90,8 @@ const Register = () => {
     if (enteredFullnameIsValid &&
         enteredPasswordIsValid &&
         enteredEmailIsValid &&
-        enteredUsernameIsValid) {
+        enteredUsernameIsValid &&
+        uploadedImageIsValid) {
         formIsValid = true;
     }
     // ********************************************* //

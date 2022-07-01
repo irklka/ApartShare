@@ -34,7 +34,7 @@ const MyBookings = () => {
                     address={booking.address}
                     bedsNumber={booking.bedsNumber}
                     city={booking.city}
-                    distance={booking.distance}
+                    distance={booking.distanceToCenter}
                     fromDate={booking.fromDate}
                     dueDate={booking.dueDate}
                     img={booking.imageBase64}
