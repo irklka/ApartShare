@@ -64,17 +64,17 @@ const Search = (props) => {
         }, searchHelper);
     }
 
-    const loadingElement = <div className={classes.loadingAndSearchMessage}>
+    const loadingElement = <div className="loadingAndResultMessage">
         <p>Result is loading, please wait for few seconds...</p>
     </div>;
 
     const resultElement =
         typeof (searchResult) === 'string' ?
-            <div className={classes.loadingAndSearchMessage}>
+            <div className="loadingAndResultMessage">
                 <p>{searchResult}</p>
             </div>
             :
-            <div className={`grid grid--2-cols ${classes['search-container']}`}>
+            <div className="grid grid--2-cols card-container--gap">
                 {searchResult.map(apartment => {
                     return <SearchPageCard
                         key={apartment.ownerId}
@@ -92,9 +92,6 @@ const Search = (props) => {
                 })
                 }
             </div>
-
-
-
 
     return <div className="page">
         <div className="container">

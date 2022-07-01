@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import GuestCard from "../components/Cards/GuestCard";
-import classes from "./MyGuests.module.css"
 import useHttp from "../hooks/use-http";
 
 const MyGuests = () => {
@@ -23,10 +22,10 @@ const MyGuests = () => {
         }, guestData);
     }, [getGuestData]);
 
-    const loadingElement = <p className={classes.loadingMessage}>Page is loading, please wait for few seconds...</p>;
+    const loadingElement = <p className="loadingAndResultMessage">Page is loading, please wait for few seconds...</p>;
 
     const resultElement = myGuests.length === 0 ?
-        <p className={classes.loadingMessage}>There are no guest requests at the moment</p> :
+        <p className="loadingAndResultMessage">There are no guest requests at the moment</p> :
         myGuests.map(myGuest => {
             return <GuestCard
                 key={myGuest.id}

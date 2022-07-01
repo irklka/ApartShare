@@ -31,12 +31,11 @@ const useHttp = () => {
         catch (err) {
             if (err.message === "session is expired.") {
                 logout();
-                return;
             }
             else {
                 alert(err.message);
-                return;
             }
+            return;
         }
         setIsLoading(false);
         !!applyData && applyData(receivedData);

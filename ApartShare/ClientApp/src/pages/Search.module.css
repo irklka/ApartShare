@@ -1,9 +1,5 @@
 /** @format */
 
-.search-container {
-  gap: 9.6rem;
-}
-
 .search-form {
   max-width: 120rem;
   display: flex;
@@ -33,15 +29,4 @@
 .search-form input:focus {
   background-color: #e8e3ff;
   outline: #5f3dc4;
-}
-
-.loadingAndSearchMessage {
-  display: flex;
-  justify-content: center;
-}
-
-.loadingAndSearchMessage p {
-  font-size: 2rem;
-  font-weight: 500;
-  color: #3c228b;
 }

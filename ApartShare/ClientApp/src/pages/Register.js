@@ -137,7 +137,7 @@ const Register = () => {
         'invalid-inputs visible' : 'invalid-inputs';
     // ********************************************* //
 
-    return <div className={`wrapper ${classes['login-background']}`}>
+    return <div className={`wrapper ${classes['register-background']}`}>
         <div className="form-container form-container-settings text-align-left">
             <h1>Sign up</h1>
             <form onSubmit={formSubmitHandler}>

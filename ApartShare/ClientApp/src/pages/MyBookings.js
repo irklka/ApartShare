@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import BookingsCard from "../components/Cards/BookingCard";
-import classes from "./MyBookings.module.css"
 import useHttp from "../hooks/use-http";
 
 const MyBookings = () => {
@@ -23,11 +22,11 @@ const MyBookings = () => {
         }, myRequestData);
     }, [getmyRequestData]);
 
-    const loadingElement = <p className={classes.loadingMessage}>Page is loading, please wait for few seconds...</p>;
+    const loadingElement = <p className="loadingAndResultMessage">Page is loading, please wait for few seconds...</p>;
 
     const resultElement = bookings.length === 0 ?
-        <p className={classes.loadingMessage}>There are no booking requests at the moment</p> :
-        <div className={`grid grid--2-cols ${classes['bookings-container']}`}>
+        <p className="loadingAndResultMessage">There are no booking requests at the moment</p> :
+        <div className="grid grid--2-cols card-container--gap">
             {bookings.map(booking => {
                 return <BookingsCard
                     key={booking.id}
