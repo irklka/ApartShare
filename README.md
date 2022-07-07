@@ -10,7 +10,7 @@ so no payments will be involved.
 
 <ul>
   <li>.Net6 Core web Api - backend</li>
-  <li> React.js -frontend</li>
+  <li> React.js - frontend</li>
 </ul>
 
 
