@@ -21,3 +21,5 @@ Frontend was done by <a href="https://github.com/Vagabond169"> Vagabond</a> <br/
 <br/>
 Thank you Vagabond.<br/><br/>
 I worked on backend.
+
+Project was created due to AltexSoft's excercise plan for Internship.
