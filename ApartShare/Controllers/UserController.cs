@@ -1,11 +1,9 @@
-using ApartShare.Models;
-using ApartShare.Models.DTOs.UserDtos;
-using ApartShare.Models.Extensions;
-using ApartShare.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ApartShare.Helpers;
-
-#pragma warning disable CS8604 // Possible null reference argument.
+using Common.DTOs.UserDtos;
+using ApartShare.Extensions;
+using DAL.Repository.Abstract;
+using Common.Helpers;
 
 namespace ApartShare.Controllers
 {
@@ -69,7 +67,7 @@ namespace ApartShare.Controllers
 
             try
             {
-                _unitOfWork.Users.Create(user);
+                _unitOfWork.Users.Create(user!);
                 _unitOfWork.Commit();
             }
             catch
@@ -80,7 +78,7 @@ namespace ApartShare.Controllers
                 });
             }
 
-            return Ok(user.ToDTO());
+            return Ok(user!.ToDTO());
         }
 
         [HttpPost("login")]
@@ -124,7 +122,7 @@ namespace ApartShare.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
 
                 Guid userId = Guid.Parse(token.Issuer);
 
@@ -138,7 +136,7 @@ namespace ApartShare.Controllers
                     });
                 }
 
-                return Ok(user.ToDTO());
+                return Ok(user);
             }
             catch
             {

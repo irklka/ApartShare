@@ -1,26 +1,12 @@
-using ApartShare.Data;
+using DAL.Context;
+using DAL.Repository.Abstract;
+using DAL.Repository.Concrete;
 using ApartShare.Helpers;
-using ApartShare.Models.Interfaces;
-using ApartShare.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddCors();
-
-//builder.Services.AddCors(options =>
-//{
-//    options.AddDefaultPolicy(
-//        builder =>
-//        {
-//            builder.WithOrigins("https://localhost:44469")
-//                    .AllowAnyHeader()
-//                    .AllowAnyMethod()
-//                    .AllowCredentials();
-//        });
-//});
 
 builder.Services.AddDbContext<UserContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
@@ -43,8 +29,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-//app.UseCors();
-
 app.UseCors(options => options
     .WithOrigins(@"https://localhost:44469")
     .AllowAnyHeader()
@@ -53,7 +37,7 @@ app.UseCors(options => options
 );
 
 //app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 

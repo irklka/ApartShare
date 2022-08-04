@@ -1,12 +1,10 @@
-﻿using ApartShare.Helpers;
-using ApartShare.Models;
-using ApartShare.Models.DTOs.ApartmentDtos;
-using ApartShare.Models.DTOs.RequestDtos;
-using ApartShare.Models.Extensions;
-using ApartShare.Models.Interfaces;
+﻿using DAL.Repository.Abstract;
+using Common.DTOs.ApartmentDtos;
+using Common.DTOs.RequestDtos;
+using ApartShare.Extensions;
+using ApartShare.Helpers;
+using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
-
-#pragma warning disable CS8604 // Possible null reference argument.
 
 
 namespace ApartShare.Controllers
@@ -33,7 +31,7 @@ namespace ApartShare.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
             }
             catch
             {
@@ -42,16 +40,6 @@ namespace ApartShare.Controllers
                     message = "session is expired."
                 });
             }
-
-            //if (dueDate == null)
-            //{
-            //    dueDate = DateTime.Now.AddDays(1);
-            //}
-
-            //if (fromDate == null)
-            //{
-            //    fromDate = DateTime.Now;
-            //}
 
             var response = new ApartmentsDTO()
             {
@@ -98,13 +86,13 @@ namespace ApartShare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateApartmentAsync([FromBody] ApartmentCreationDTO apartment)
+        public async Task<IActionResult> CreateApartmentAsync([FromBody]ApartmentCreationDTO apartment)
         {
             try
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
 
                 Guid userId = Guid.Parse(token.Issuer);
 
@@ -131,7 +119,7 @@ namespace ApartShare.Controllers
                     else
                     {
                         //If apartments does not exist create new one.
-                        _unitOfWork.Apartments.Create(newApartment);
+                        _unitOfWork.Apartments.Create(newApartment!);
                     }
                     _unitOfWork.Commit();
                 }

@@ -1,12 +1,9 @@
-﻿using ApartShare.Helpers;
-using ApartShare.Models;
-using ApartShare.Models.DTOs.RequestDtos;
-using ApartShare.Models.Enums;
-using ApartShare.Models.Extensions;
-using ApartShare.Models.Interfaces;
+﻿using DAL.Repository.Abstract;
+using Common.DTOs.RequestDtos;
+using Common.Enums;
+using ApartShare.Extensions;
+using ApartShare.Helpers;
 using Microsoft.AspNetCore.Mvc;
-
-#pragma warning disable CS8604 // Possible null reference argument.
 
 namespace ApartShare.Controllers
 {
@@ -32,7 +29,7 @@ namespace ApartShare.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
 
                 Guid userId = Guid.Parse(token.Issuer);
 
@@ -57,7 +54,7 @@ namespace ApartShare.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
             }
             catch
             {
@@ -112,7 +109,7 @@ namespace ApartShare.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
 
                 Guid userId = Guid.Parse(token.Issuer);
                 var myRequestsWithDetails = await _unitOfWork.Requests
@@ -140,7 +137,7 @@ namespace ApartShare.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwt!);
 
                 guestId = Guid.Parse(token.Issuer);
             }
